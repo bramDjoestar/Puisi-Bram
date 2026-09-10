@@ -63,6 +63,50 @@
         .card-glow:hover {
             box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.15);
         }
+
+        /* Theme Styles: Mode Pagi (Terang) Override */
+        html.light body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        html.light .bg-slate-950, 
+        html.light .bg-slate-950\/80,
+        html.light .bg-slate-950\/40 {
+            background-color: #f8fafc !important;
+        }
+        html.light .bg-slate-900, 
+        html.light .bg-slate-900\/80, 
+        html.light .bg-slate-900\/90 {
+            background-color: #ffffff !important;
+        }
+        html.light .border-slate-800, 
+        html.light .border-slate-800\/80, 
+        html.light .border-slate-800\/60 {
+            border-color: #e2e8f0 !important;
+        }
+        html.light .text-slate-100, 
+        html.light .text-slate-200, 
+        html.light .text-slate-300 {
+            color: #1e293b !important;
+        }
+        html.light .text-slate-400, 
+        html.light .text-slate-500 {
+            color: #64748b !important;
+        }
+        html.light #searchInput, 
+        html.light #readerNoteInput {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+        html.light .category-btn:not(.active) {
+            background-color: #ffffff !important;
+            color: #475569 !important;
+            border-color: #cbd5e1 !important;
+        }
+        html.light .card-glow:hover {
+            box-shadow: 0 10px 30px -10px rgba(217, 119, 6, 0.25);
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
@@ -102,9 +146,10 @@
                     <span id="favCounter" class="bg-rose-950 text-rose-300 px-1.5 py-0.5 rounded text-[10px] font-bold">0</span>
                 </button>
 
-                <!-- Dark/Light Theme Switcher -->
-                <button onclick="toggleThemeMode()" class="p-2 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-slate-300 hover:text-amber-400 transition-all" title="Ubah Tema Warna">
-                    <i id="themeIcon" class="fa-solid fa-sun"></i>
+                <!-- Theme Switcher (Pagi / Malam) -->
+                <button id="themeToggleBtn" onclick="toggleThemeMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Ganti Mode Tema (Pagi / Malam)">
+                    <i id="themeIcon" class="fa-solid fa-moon text-amber-400"></i>
+                    <span id="themeText" class="font-semibold text-xs">Malam</span>
                 </button>
             </div>
         </div>
@@ -217,13 +262,6 @@
                         <i class="fa-solid fa-volume-high text-amber-500"></i>
                         <span id="speechBtnText">Suara</span>
                     </button>
-
-                    <!-- Theme Switchers for Reader -->
-                    <div class="hidden sm:flex items-center bg-slate-900 p-1 rounded-lg border border-slate-800 gap-1">
-                        <button onclick="setReaderTheme('dark')" class="px-2 py-1 rounded text-[11px] font-medium bg-slate-800 text-slate-200" title="Tema Malam">Malam</button>
-                        <button onclick="setReaderTheme('sepia')" class="px-2 py-1 rounded text-[11px] font-medium text-amber-200 hover:bg-slate-800" title="Tema Sepia">Sepia</button>
-                        <button onclick="setReaderTheme('paper')" class="px-2 py-1 rounded text-[11px] font-medium text-amber-900 hover:bg-slate-800" title="Tema Kertas">Kertas</button>
-                    </div>
 
                     <!-- Font Resizer -->
                     <div class="flex items-center bg-slate-900 p-1 rounded-lg border border-slate-800">
@@ -801,6 +839,7 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
         // Initial Load Event
         window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
             renderPoemsList(poemsDatabase);
             updateFavCounter();
         });
@@ -911,25 +950,6 @@ adalah sesuatu yang tak akan mudah kulupa.`
             modal.classList.add('hidden');
             document.body.style.overflow = '';
             stopSpeech();
-        }
-
-        function setReaderTheme(theme) {
-            const content = document.getElementById('modalContentArea');
-            const modalTitle = document.getElementById('modalTitle');
-
-            content.classList.remove('bg-slate-900', 'text-slate-200', 'bg-[#231e1a]', 'text-[#e6d7c3]', 'bg-[#f6f1e7]', 'text-[#2b251f]');
-            modalTitle.classList.remove('text-slate-100', 'text-[#f5e6d3]', 'text-[#2b251f]');
-
-            if (theme === 'dark') {
-                content.classList.add('bg-slate-900', 'text-slate-200');
-                modalTitle.classList.add('text-slate-100');
-            } else if (theme === 'sepia') {
-                content.classList.add('bg-[#231e1a]', 'text-[#e6d7c3]');
-                modalTitle.classList.add('text-[#f5e6d3]');
-            } else if (theme === 'paper') {
-                content.classList.add('bg-[#f6f1e7]', 'text-[#2b251f]');
-                modalTitle.classList.add('text-[#2b251f]');
-            }
         }
 
         function adjustFontSize(delta) {
@@ -1151,17 +1171,44 @@ adalah sesuatu yang tak akan mudah kulupa.`
             document.getElementById('quoteText').innerText = random;
         }
 
+        function initTheme() {
+            const savedTheme = localStorage.getItem('bramasta_theme') || 'malam';
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+
+            if (savedTheme === 'pagi') {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                if (icon) icon.className = "fa-solid fa-sun text-amber-500";
+                if (text) text.innerText = "Pagi";
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                if (icon) icon.className = "fa-solid fa-moon text-amber-400";
+                if (text) text.innerText = "Malam";
+            }
+        }
+
         function toggleThemeMode() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                icon.className = "fa-solid fa-moon";
-                showToast("Mode Terang Aktif");
+                html.classList.add('light');
+                if (icon) icon.className = "fa-solid fa-sun text-amber-500";
+                if (text) text.innerText = "Pagi";
+                localStorage.setItem('bramasta_theme', 'pagi');
+                showToast("Mode Pagi (Terang) Aktif");
             } else {
+                html.classList.remove('light');
                 html.classList.add('dark');
-                icon.className = "fa-solid fa-sun";
-                showToast("Mode Gelap Aktif");
+                if (icon) icon.className = "fa-solid fa-moon text-amber-400";
+                if (text) text.innerText = "Malam";
+                localStorage.setItem('bramasta_theme', 'malam');
+                showToast("Mode Malam (Gelap) Aktif");
             }
         }
 
