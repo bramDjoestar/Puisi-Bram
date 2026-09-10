@@ -43,301 +43,454 @@
             background-color: #0b0f17;
             color: #f1f5f9;
         }
+
         .font-serif-title {
             font-family: 'Playfair Display', Georgia, serif;
         }
-        /* Custom Scrollbar */
+
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #0f172a;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #334155;
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #f59e0b;
         }
+
         .card-glow:hover {
             box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.15);
         }
 
-        /* Theme Styles: Mode Pagi (Terang) Override */
+        /* Theme Styles: Mode Pagi */
         html.light body {
             background-color: #f8fafc;
             color: #0f172a;
         }
+
         html.light .bg-slate-950, 
         html.light .bg-slate-950\/80,
         html.light .bg-slate-950\/40 {
             background-color: #f8fafc !important;
         }
+
         html.light .bg-slate-900, 
         html.light .bg-slate-900\/80, 
         html.light .bg-slate-900\/90 {
             background-color: #ffffff !important;
         }
+
         html.light .border-slate-800, 
         html.light .border-slate-800\/80, 
         html.light .border-slate-800\/60 {
             border-color: #e2e8f0 !important;
         }
+
         html.light .text-slate-100, 
         html.light .text-slate-200, 
         html.light .text-slate-300 {
             color: #1e293b !important;
         }
+
         html.light .text-slate-400, 
         html.light .text-slate-500 {
             color: #64748b !important;
         }
+
         html.light #searchInput, 
         html.light #readerNoteInput {
             background-color: #f1f5f9 !important;
             color: #0f172a !important;
             border-color: #cbd5e1 !important;
         }
+
         html.light .category-btn:not(.active) {
             background-color: #ffffff !important;
             color: #475569 !important;
             border-color: #cbd5e1 !important;
         }
+
         html.light .card-glow:hover {
             box-shadow: 0 10px 30px -10px rgba(217, 119, 6, 0.25);
         }
     </style>
 </head>
+
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
+    <!-- HEADER -->
     <header class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+
             <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-slate-950 font-bold font-serif text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
                     B
                 </div>
+
                 <div>
                     <h1 class="font-serif-title text-base lg:text-lg font-bold text-slate-100 tracking-wide leading-tight group-hover:text-amber-400 transition-colors">
                         Bramasta Aptila Yanuar
                     </h1>
-                    <p class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">Antologi Puisi Digital</p>
+                    <p class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">
+                        Antologi Puisi Digital
+                    </p>
                 </div>
             </a>
 
-            <!-- Navigation Quick Actions -->
+            <!-- Navigation -->
             <div class="flex items-center gap-2 sm:gap-3">
-                <!-- Ambient Rain Sound Button -->
+
+                <!-- Ambient Rain -->
                 <button id="btnAmbient" onclick="toggleAmbientSound()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Putar Suara Hujan Ambience">
                     <i id="ambientIcon" class="fa-solid fa-cloud-rain text-slate-400"></i>
                     <span id="ambientText" class="hidden md:inline">Hujan Ambience</span>
                 </button>
 
-                <!-- Random Poem Button -->
+                <!-- Random Poem -->
                 <button onclick="readRandomPoem()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Baca Puisi Acak">
                     <i class="fa-solid fa-shuffle text-amber-500"></i>
                     <span class="hidden sm:inline">Acak</span>
                 </button>
 
-                <!-- Favorites Quick Counter -->
+                <!-- Favorites -->
                 <button onclick="filterFavorites()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-rose-500/50 text-xs font-medium text-slate-300 hover:text-rose-400 transition-all">
                     <i class="fa-solid fa-heart text-rose-500"></i>
-                    <span id="favCounter" class="bg-rose-950 text-rose-300 px-1.5 py-0.5 rounded text-[10px] font-bold">0</span>
+                    <span id="favCounter" class="bg-rose-950 text-rose-300 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                        0
+                    </span>
                 </button>
 
-                <!-- Theme Switcher (Pagi / Malam) -->
-                <button id="themeToggleBtn" onclick="toggleThemeMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Ganti Mode Tema (Pagi / Malam)">
+                <!-- Theme -->
+                <button id="themeToggleBtn" onclick="toggleThemeMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Ganti Mode Tema">
                     <i id="themeIcon" class="fa-solid fa-moon text-amber-400"></i>
                     <span id="themeText" class="font-semibold text-xs">Malam</span>
                 </button>
+
             </div>
         </div>
     </header>
 
+
+    <!-- HERO -->
     <section class="relative py-12 lg:py-16 px-4 lg:px-8 border-b border-slate-800/60 overflow-hidden bg-gradient-to-b from-slate-900/40 via-slate-950 to-slate-950">
-        <!-- Subtle Glow Background Effect -->
+
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+
             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold uppercase tracking-widest">
-                <i class="fa-solid fa-feather-pointed text-xs"></i> Karya Sastra Pilihan
+                <i class="fa-solid fa-feather-pointed text-xs"></i>
+                Karya Sastra Pilihan
             </span>
 
             <h2 class="font-serif-title text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-100 tracking-tight leading-tight">
                 Kumpulan Bait & Renungan Malam
             </h2>
 
-            <!-- Interactive Quote Highlight -->
+            <!-- Quote -->
             <div id="quoteCard" class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-sm max-w-2xl mx-auto shadow-xl relative group">
+
                 <i class="fa-solid fa-quote-left text-3xl text-amber-500/20 absolute top-4 left-4"></i>
+
                 <p id="quoteText" class="font-serif italic text-base sm:text-lg text-slate-300 leading-relaxed relative z-10 px-6">
                     "Tanpamu, bulan hanyalah kesepian yang lebih terang."
                 </p>
+
                 <div class="mt-3 flex items-center justify-center gap-2">
-                    <span class="text-xs text-amber-500/80 font-medium">&mdash; Bramasta Aptila Yanuar</span>
+                    <span class="text-xs text-amber-500/80 font-medium">
+                        &mdash; Bramasta Aptila Yanuar
+                    </span>
+
                     <button onclick="generateRandomQuote()" class="text-xs text-slate-500 hover:text-amber-400 ml-2 transition-colors" title="Ganti Kutipan">
                         <i class="fa-solid fa-rotate-right"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Search & Filter Controls -->
+
+            <!-- SEARCH -->
             <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto">
-                <!-- Search Box -->
+
                 <div class="relative w-full">
+
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari judul, kata dalam larik, atau kata kunci..." class="w-full bg-slate-900 border border-slate-800 focus:border-amber-500 text-slate-200 text-sm rounded-xl pl-10 pr-10 py-3 outline-none transition-all placeholder:text-slate-500">
-                    <button id="btnClearSearch" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-xs p-1">
+
+                    <input type="text"
+                           id="searchInput"
+                           oninput="handleSearch()"
+                           placeholder="Cari judul, kata dalam larik, atau kata kunci..."
+                           class="w-full bg-slate-900 border border-slate-800 focus:border-amber-500 text-slate-200 text-sm rounded-xl pl-10 pr-10 py-3 outline-none transition-all placeholder:text-slate-500">
+
+                    <button id="btnClearSearch"
+                            onclick="clearSearch()"
+                            class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-xs p-1">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
+
                 </div>
             </div>
 
-            <!-- Category Filter Pills -->
+
+            <!-- CATEGORY -->
             <div class="flex flex-wrap items-center justify-center gap-2 pt-2" id="categoryPills">
+
                 <button onclick="setCategoryFilter('all')" class="category-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium border border-amber-500 bg-amber-500 text-slate-950 transition-all">
                     Semua Puisi
                 </button>
+
                 <button onclick="setCategoryFilter('Waktu & Perjalanan')" class="category-btn px-3.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all">
                     Waktu & Perjalanan
                 </button>
+
                 <button onclick="setCategoryFilter('Rindu & Kehilangan')" class="category-btn px-3.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all">
                     Rindu & Kehilangan
                 </button>
+
                 <button onclick="setCategoryFilter('Cinta & Ketenangan')" class="category-btn px-3.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all">
                     Cinta & Ketenangan
                 </button>
+
                 <button onclick="setCategoryFilter('en')" class="category-btn px-3.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all">
                     Bahasa Inggris
                 </button>
+
             </div>
         </div>
     </section>
 
+
+    <!-- MAIN -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-10">
-        <!-- Section Header Info -->
+
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+
             <div>
-                <h3 id="galleryTitle" class="font-serif-title text-2xl font-bold text-slate-100">Daftar Puisi Utuh</h3>
-                <p id="poemCountText" class="text-xs text-slate-400 mt-1">Menampilkan 17 karya puisi (Setiap puisi tersusun dalam bait 4 baris)</p>
+                <h3 id="galleryTitle" class="font-serif-title text-2xl font-bold text-slate-100">
+                    Daftar Puisi Utuh
+                </h3>
+
+                <p id="poemCountText" class="text-xs text-slate-400 mt-1">
+                    Menampilkan 17 karya puisi
+                </p>
             </div>
+
             <div class="text-xs text-amber-400/90 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg font-medium">
-                <i class="fa-solid fa-circle-info mr-1"></i> Klik kartu untuk membaca seluruh bait
+                <i class="fa-solid fa-circle-info mr-1"></i>
+                Klik kartu untuk membaca seluruh bait
             </div>
+
         </div>
 
-        <!-- Poems Cards Grid -->
-        <div id="poemsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamic JavaScript Cards will be inserted here -->
-        </div>
 
-        <!-- Empty Search Result State -->
+        <!-- POEM GRID -->
+        <div id="poemsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+
+        <!-- EMPTY -->
         <div id="emptyState" class="hidden py-16 text-center space-y-4">
+
             <div class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-500 text-2xl">
                 <i class="fa-solid fa-book-open"></i>
             </div>
-            <h4 class="font-serif-title text-xl font-bold text-slate-300">Puisi Tidak Ditemukan</h4>
-            <p class="text-sm text-slate-500 max-w-md mx-auto">Tidak ada karya yang sesuai dengan pencarian Anda. Coba kata kunci lain atau pilih kategori lain.</p>
+
+            <h4 class="font-serif-title text-xl font-bold text-slate-300">
+                Puisi Tidak Ditemukan
+            </h4>
+
+            <p class="text-sm text-slate-500 max-w-md mx-auto">
+                Tidak ada karya yang sesuai dengan pencarian Anda.
+            </p>
+
             <button onclick="clearSearch()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-amber-400 rounded-xl transition-all">
                 Reset Pencarian
             </button>
+
         </div>
+
     </main>
 
+
+    <!-- MODAL -->
     <div id="poemModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+
         <div class="relative w-full max-w-3xl my-auto rounded-2xl shadow-2xl overflow-hidden border border-slate-800 flex flex-col max-h-[90vh]">
-            
-            <!-- Modal Reader Header Toolbar -->
+
+            <!-- Modal Header -->
             <div id="modalHeader" class="px-6 py-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between gap-4 flex-wrap">
+
                 <div>
-                    <span id="modalCategory" class="text-[11px] font-mono tracking-wider uppercase text-amber-500 font-semibold">Kategori</span>
-                    <h3 id="modalTitle" class="font-serif-title text-xl sm:text-2xl font-bold text-slate-100 leading-tight">Judul Puisi</h3>
+                    <span id="modalCategory" class="text-[11px] font-mono tracking-wider uppercase text-amber-500 font-semibold">
+                        Kategori
+                    </span>
+
+                    <h3 id="modalTitle" class="font-serif-title text-xl sm:text-2xl font-bold text-slate-100 leading-tight">
+                        Judul Puisi
+                    </h3>
                 </div>
+
 
                 <!-- Reader Controls -->
                 <div class="flex items-center gap-2">
-                    <!-- Text-to-Speech Button -->
-                    <button id="btnSpeech" onclick="toggleSpeech()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Dengarkan Pembacaan Puisi">
-                        <i class="fa-solid fa-volume-high text-amber-500"></i>
-                        <span id="speechBtnText">Suara</span>
-                    </button>
 
                     <!-- Font Resizer -->
                     <div class="flex items-center bg-slate-900 p-1 rounded-lg border border-slate-800">
-                        <button onclick="adjustFontSize(-1)" class="w-7 h-7 flex items-center justify-center text-xs text-slate-400 hover:text-amber-400 font-bold" title="Kecilkan Teks">A-</button>
-                        <button onclick="adjustFontSize(1)" class="w-7 h-7 flex items-center justify-center text-xs text-slate-400 hover:text-amber-400 font-bold" title="Besarkan Teks">A+</button>
+
+                        <button onclick="adjustFontSize(-1)"
+                                class="w-7 h-7 flex items-center justify-center text-xs text-slate-400 hover:text-amber-400 font-bold"
+                                title="Kecilkan Teks">
+                            A-
+                        </button>
+
+                        <button onclick="adjustFontSize(1)"
+                                class="w-7 h-7 flex items-center justify-center text-xs text-slate-400 hover:text-amber-400 font-bold"
+                                title="Besarkan Teks">
+                            A+
+                        </button>
+
                     </div>
 
-                    <!-- Close Button -->
-                    <button onclick="closeModal()" class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-rose-950/80 border border-slate-800 hover:border-rose-500/50 flex items-center justify-center text-slate-400 hover:text-rose-400 transition-all">
+
+                    <!-- Close -->
+                    <button onclick="closeModal()"
+                            class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-rose-950/80 border border-slate-800 hover:border-rose-500/50 flex items-center justify-center text-slate-400 hover:text-rose-400 transition-all">
+
                         <i class="fa-solid fa-xmark text-sm"></i>
+
                     </button>
+
                 </div>
             </div>
 
-            <!-- Modal Poem Content Area -->
+
+            <!-- Modal Content -->
             <div id="modalContentArea" class="p-6 sm:p-10 overflow-y-auto space-y-6 bg-slate-900 text-slate-200 transition-colors duration-300">
+
                 <div class="text-center font-mono text-xs text-slate-500 uppercase tracking-widest">
                     Karya: Bramasta Aptila Yanuar
                 </div>
 
-                <!-- Formatted Poem Verses Container -->
+
+                <!-- Poem -->
                 <div id="modalPoemText" class="font-serif text-base sm:text-lg leading-loose space-y-8 max-w-xl mx-auto text-left py-4">
-                    <!-- Stanzas will be generated dynamically -->
                 </div>
 
-                <!-- Reader Notes Section -->
+
+                <!-- Notes -->
                 <div class="pt-8 border-t border-slate-800/80 max-w-xl mx-auto space-y-3">
+
                     <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-                        <span><i class="fa-solid fa-pen-to-square text-amber-500 mr-1.5"></i> Catatan & Kesan Pembaca</span>
-                        <span id="noteSavedStatus" class="text-[10px] text-emerald-400 opacity-0 transition-opacity">Tersimpan!</span>
+
+                        <span>
+                            <i class="fa-solid fa-pen-to-square text-amber-500 mr-1.5"></i>
+                            Catatan & Kesan Pembaca
+                        </span>
+
+                        <span id="noteSavedStatus"
+                              class="text-[10px] text-emerald-400 opacity-0 transition-opacity">
+                            Tersimpan!
+                        </span>
+
                     </label>
-                    <textarea id="readerNoteInput" rows="2" placeholder="Tuliskan pesan atau makna puisi ini bagi Anda..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-amber-500 outline-none transition-all placeholder:text-slate-600 resize-none"></textarea>
+
+
+                    <textarea id="readerNoteInput"
+                              rows="2"
+                              placeholder="Tuliskan pesan atau makna puisi ini bagi Anda..."
+                              class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-amber-500 outline-none transition-all placeholder:text-slate-600 resize-none"></textarea>
+
+
                     <div class="flex items-center justify-between">
-                        <button onclick="saveReaderNote()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold rounded-lg transition-all">
+
+                        <button onclick="saveReaderNote()"
+                                class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold rounded-lg transition-all">
                             Simpan Catatan
                         </button>
-                        <button onclick="copyModalPoem()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-all flex items-center gap-1.5">
-                            <i class="fa-solid fa-copy"></i> Salin Teks Puisi
+
+
+                        <button onclick="copyModalPoem()"
+                                class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-all flex items-center gap-1.5">
+
+                            <i class="fa-solid fa-copy"></i>
+                            Salin Teks Puisi
+
                         </button>
+
                     </div>
                 </div>
+
             </div>
 
-            <!-- Modal Footer -->
+
+            <!-- Footer Modal -->
             <div class="px-6 py-3 bg-slate-950 border-t border-slate-800 text-center text-[11px] text-slate-500">
                 Antologi Puisi Bramasta Aptila Yanuar &bull; Murni Teks Sastra Digital
             </div>
+
         </div>
     </div>
 
+
+    <!-- TOAST -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 border border-amber-500/50 text-slate-100 text-xs font-medium px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all duration-300">
+
         <i class="fa-solid fa-circle-check text-amber-400 text-base"></i>
-        <span id="toastMsg">Pesan Toast</span>
+
+        <span id="toastMsg">
+            Pesan Toast
+        </span>
+
     </div>
 
-    <!-- Footer Section -->
+
+    <!-- FOOTER -->
     <footer class="bg-slate-950 border-t border-slate-800/80 py-8 px-4 text-center text-xs text-slate-500">
+
         <div class="max-w-7xl mx-auto space-y-3">
-            <p class="font-serif-title text-sm font-semibold text-slate-400">Bramasta Aptila Yanuar</p>
-            <p>&copy; 2026 Antologi Puisi Digital. Seluruh Hak Cipta Dilindungi.</p>
+
+            <p class="font-serif-title text-sm font-semibold text-slate-400">
+                Bramasta Aptila Yanuar
+            </p>
+
+            <p>
+                &copy; 2026 Antologi Puisi Digital. Seluruh Hak Cipta Dilindungi.
+            </p>
+
             <div class="pt-2 flex justify-center gap-4 text-slate-400 text-sm">
-                <button onclick="scrollToTop()" class="hover:text-amber-400 transition-colors" title="Kembali ke atas">
+
+                <button onclick="scrollToTop()"
+                        class="hover:text-amber-400 transition-colors"
+                        title="Kembali ke atas">
+
                     <i class="fa-solid fa-arrow-up"></i>
+
                 </button>
+
             </div>
         </div>
     </footer>
 
-    <script>
-        const poemsDatabase = [
-            {
-                id: 1,
-                title: "TERBUANG DALAM WAKTU",
-                lang: "id",
-                category: "Waktu & Perjalanan",
-                verses: `Aku berdiri di antara detik yang retak,
+
+<script>
+
+    /* =========================
+       DATABASE PUISI
+    ========================= */
+
+    const poemsDatabase = [
+        {
+            id: 1,
+            title: "TERBUANG DALAM WAKTU",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Aku berdiri di antara detik yang retak,
 menatap bayang yang enggan menetap,
 suara-suara memanggil dari masa lalu,
 namun kakiku diam, tak tahu menuju.
@@ -356,13 +509,14 @@ Jika waktu tak mau menoleh kembali,
 biarlah aku yang berjalan sendiri,
 meski terbuang dalam sunyi yang panjang,
 aku akan hidup, walau tanpa terang.`
-            },
-            {
-                id: 2,
-                title: "JARAK ANTARA KITA DAN BULAN",
-                lang: "id",
-                category: "Rindu & Kehilangan",
-                verses: `Aku terbiasa hidup tanpa langit,
+        },
+
+        {
+            id: 2,
+            title: "JARAK ANTARA KITA DAN BULAN",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Aku terbiasa hidup tanpa langit,
 hanya lorong-lorong sunyi dan suara mesin.
 Tak ada mimpi, hanya pelarian tanpa arah,
 dan hati yang sudah lama berhenti berharap.
@@ -386,13 +540,14 @@ Kini aku berdiri di tempat yang pernah kita impikan,
 di bawah langit yang begitu luas dan asing.
 Aku berhasil sampai ke sini, seperti katamu—
 tapi tanpamu, bulan hanyalah kesepian yang lebih terang.`
-            },
-            {
-                id: 3,
-                title: "SEBELUM DUNIA BERAKHIR DIAM-DIAM",
-                lang: "id",
-                category: "Waktu & Perjalanan",
-                verses: `Aku pernah menjadi dunia yang hampir runtuh,
+        },
+
+        {
+            id: 3,
+            title: "SEBELUM DUNIA BERAKHIR DIAM-DIAM",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Aku pernah menjadi dunia yang hampir runtuh,
 tersenyum agar tak ada yang melihat retaknya.
 Hari-hari berjalan seperti biasa bagi semua orang,
 kecuali hatiku yang perlahan kehilangan bentuknya.
@@ -416,13 +571,14 @@ Namun semua ruang memiliki akhirnya sendiri,
 bahkan yang terasa abadi sekalipun.
 Jika aku harus pergi agar kau tetap utuh,
 biarlah aku menjadi kenangan yang kau selamatkan.`
-            },
-            {
-                id: 4,
-                title: "YANG TINGGAL SETELAH KAU PERGI",
-                lang: "id",
-                category: "Rindu & Kehilangan",
-                verses: `Aku masih melihatmu di tempat yang sama,
+        },
+
+        {
+            id: 4,
+            title: "YANG TINGGAL SETELAH KAU PERGI",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Aku masih melihatmu di tempat yang sama,
 di sudut-sudut yang tak pernah berubah.
 Seolah waktu menolak membawamu pergi,
 dan membiarkan bayangmu tinggal bersamaku.
@@ -446,13 +602,14 @@ Jika kau memang harus tetap di sana, tak apa,
 tinggallah sejauh yang kau mau.
 Aku akan belajar hidup berdampingan denganmu—
 sebagai seseorang yang kucintai, dan tak pernah benar-benar pergi.`
-            },
-            {
-                id: 5,
-                title: "AKU MASIH DISINI",
-                lang: "id",
-                category: "Waktu & Perjalanan",
-                verses: `Aku pernah berdiri di antara sisa-sisa diriku,
+        },
+
+        {
+            id: 5,
+            title: "AKU MASIH DISINI",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Aku pernah berdiri di antara sisa-sisa diriku,
 napas gemetar, hati hampir menyerah.
 Dunia berkata aku tak akan sanggup,
 dan untuk sesaat... aku hampir percaya.
@@ -476,13 +633,14 @@ Dan kini aku berdiri tanpa rasa takut,
 bukan karena dunia menjadi lebih mudah,
 tapi karena aku tahu, apa pun yang datang—
 aku akan tetap hidup... dan tak akan pernah hilang lagi.`
-            },
-            {
-                id: 6,
-                title: "BIRU ADALAH KITA",
-                lang: "id",
-                category: "Cinta & Ketenangan",
-                verses: `Kau hadir seperti langit yang tenang,
+        },
+
+        {
+            id: 6,
+            title: "BIRU ADALAH KITA",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Kau hadir seperti langit yang tenang,
 mewarnai duniaku dengan sesuatu yang baru.
 Tak terang seperti siang, tak gelap seperti malam,
 tapi cukup untuk membuatku merasa utuh.
@@ -506,13 +664,14 @@ Karena mencintaimu bukan tentang memiliki,
 tapi tentang tetap tinggal, apa pun yang terjadi.
 Dan dalam warna biru yang kita bagi bersama,
 aku menemukan arti dari selamanya.`
-            },
-            {
-                id: 7,
-                title: "NADA YANG TAK SAMA",
-                lang: "id",
-                category: "Cinta & Ketenangan",
-                verses: `Katanya semua lagu cinta terdengar sama,
+        },
+
+        {
+            id: 7,
+            title: "NADA YANG TAK SAMA",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Katanya semua lagu cinta terdengar sama,
 kata-katanya berputar di nada yang itu-itu saja.
 Janji tinggal janji, rindu tinggal rindu,
 seolah hati manusia punya kamus yang seragam.
@@ -537,13 +696,14 @@ aku tak akan lagi menyebutnya biasa.
 Karena di antara nada yang katanya serupa,
 aku menemukan satu suara yang berbeda—
 dan itu, adalah kita.`
-            },
-            {
-                id: 8,
-                title: "TOO LATE",
-                lang: "en",
-                category: "English Poetry",
-                verses: `He fell first,
+        },
+
+        {
+            id: 8,
+            title: "TOO LATE",
+            lang: "en",
+            category: "English Poetry",
+            verses: `He fell first,
 like rain before the storm arrives—
 quiet, certain,
 believing love would someday be returned.
@@ -567,13 +727,14 @@ Yet love can be cruel with timing.
 He fell first... when she could not.
 And she fell later—
 when he no longer did.`
-            },
-            {
-                id: 9,
-                title: "LOCATION UNKNOWN",
-                lang: "en",
-                category: "English Poetry",
-                verses: `Somewhere between the night and the morning,
+        },
+
+        {
+            id: 9,
+            title: "LOCATION UNKNOWN",
+            lang: "en",
+            category: "English Poetry",
+            verses: `Somewhere between the night and the morning,
 I still search for the place you might be.
 No map, no sign, no guiding light—
 just the memory of how you felt to me.
@@ -597,13 +758,14 @@ And if love is a place we once stood,
 then I'm still somewhere near that view—
 waiting in a world with no direction,
 in a heart whose location is you.`
-            },
-            {
-                id: 10,
-                title: "SELURUH DIRIMU",
-                lang: "id",
-                category: "Cinta & Ketenangan",
-                verses: `Aku jatuh bukan hanya pada senyummu,
+        },
+
+        {
+            id: 10,
+            title: "SELURUH DIRIMU",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Aku jatuh bukan hanya pada senyummu,
 tetapi pada segala yang kau sembunyikan.
 Pada luka yang kau tutup dengan tawa,
 dan mimpi yang kau jaga dalam diam.
@@ -622,13 +784,14 @@ Maka biarkan aku tetap di sisimu,
 saat waktu mengubah banyak hal dalam hidup.
 Sebab yang kupilih sejak awal bukan sebagian darimu,
 melainkan seluruh dirimu.`
-            },
-            {
-                id: 11,
-                title: "MALAM TANPA SAPAAN",
-                lang: "id",
-                category: "Rindu & Kehilangan",
-                verses: `Malam ini lampu-lampu bersinar hangat,
+        },
+
+        {
+            id: 11,
+            title: "MALAM TANPA SAPAAN",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Malam ini lampu-lampu bersinar hangat,
 namun hatiku memilih tetap sunyi.
 Ada namamu di setiap sudut ingatan,
 meski tak lagi ada tempat untuk kembali.
@@ -647,13 +810,14 @@ Jadi, rayakanlah bahagiamu di sana,
 dan biarkan aku menjaga damaiku di sini.
 Semoga Natal membawamu sukacita,
 meski kali ini... jangan hubungi aku lagi.`
-            },
-            {
-                id: 12,
-                title: "DESEMBER YANG MASIH MENYIMPAN NAMAMU",
-                lang: "id",
-                category: "Rindu & Kehilangan",
-                verses: `Desember kembali membawa cahaya,
+        },
+
+        {
+            id: 12,
+            title: "DESEMBER YANG MASIH MENYIMPAN NAMAMU",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Desember kembali membawa cahaya,
 menghias malam dengan hangatnya harapan.
 Namun di antara tawa yang terdengar,
 aku masih mencari satu suara yang hilang.
@@ -672,16 +836,17 @@ Maka dari kejauhan kubisikkan satu doa,
 semoga bahagia selalu menemukanmu.
 Dan di antara hangatnya bulan Desember,
 aku masih merindukanmu dengan cara yang sama.`
-            },
-            {
-                id: 13,
-                title: "DESEMBER YANG KURINDU DAN KUBENCI",
-                lang: "id",
-                category: "Rindu & Kehilangan",
-                verses: `Desember kembali mengetuk jendelaku,
+        },
+
+        {
+            id: 13,
+            title: "DESEMBER YANG KURINDU DAN KUBENCI",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Desember kembali mengetuk jendelaku,
 membawa dingin yang pernah kita bagi.
 Di antara cahaya yang memenuhi malam,
-namumu masih menjadi doa yang tak selesai.
+namamu masih menjadi doa yang tak selesai.
 
 Aku masih merindukanmu, sungguh.
 Rindu itu tak pernah belajar menghilang.
@@ -702,13 +867,14 @@ Maka biarlah kita saling mendoakan dari kejauhan.
 Semoga damai selalu menemukan langkahmu.
 Aku akan tetap merindukanmu setiap Desember,
 namun kali ini... biarkan rindu tak menemukan jalan pulang.`
-            },
-            {
-                id: 14,
-                title: "TAK SEJAJAR, NAMUN SEJALAN",
-                lang: "id",
-                category: "Cinta & Ketenangan",
-                verses: `Aku melihatmu dari sisi yang berbeda,
+        },
+
+        {
+            id: 14,
+            title: "TAK SEJAJAR, NAMUN SEJALAN",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Aku melihatmu dari sisi yang berbeda,
 dengan dunia yang terasa lebih tinggi dariku.
 Kau terbiasa dengan indahnya kehidupan,
 sementara aku masih menghitung apa yang kupunya.
@@ -729,16 +895,17 @@ Kesetiaan di setiap langkah yang kita lalui,
 dan hati yang tetap memilihmu setiap hari.
 
 Mungkin aku tak punya dunia yang sempurna,
-namun bersamamu aku ingin membangunya.
+namun bersamamu aku ingin membangunnya.
 Sebab cinta bukan tentang siapa yang lebih tinggi,
 melainkan dua hati yang memilih berjalan bersama.`
-            },
-            {
-                id: 15,
-                title: "HARI BARU.",
-                lang: "id",
-                category: "Waktu & Perjalanan",
-                verses: `Setiap pagi masih datang seperti biasa,
+        },
+
+        {
+            id: 15,
+            title: "HARI BARU.",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Setiap pagi masih datang seperti biasa,
 namun tak semua yang hilang ikut kembali.
 Ada nama-nama yang tersimpan dalam ingatan,
 dan wajah-wajah yang kini tak lagi mengenaliku.
@@ -763,13 +930,14 @@ meski sebagian hatiku masih tinggal di kemarin.
 Aku akan terus berjalan meski tak ada yang menunggu,
 karena mungkin beginilah caraku mencintai mereka—
 dengan tetap hidup.`
-            },
-            {
-                id: 16,
-                title: "API, GEMPA, DAN SERIBU PENJAGA.",
-                lang: "id",
-                category: "Waktu & Perjalanan",
-                verses: `Hutan terbakar, langit kehilangan warna,
+        },
+
+        {
+            id: 16,
+            title: "API, GEMPA, DAN SERIBU PENJAGA.",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Hutan terbakar, langit kehilangan warna,
 asap menutup rumah-rumah yang sederhana.
 Di seberang perbatasan, mereka ikut menghirup luka,
 sementara negeri sendiri masih sibuk mencari kata.
@@ -794,13 +962,14 @@ belum tentu tahu bagaimana negeri ini akan berakhir.
 Namun selama masih ada yang berani bersuara,
 kami belum tentu diam—
 meski mereka berharap kami lupa.`
-            },
-            {
-                id: 18,
-                title: "KOTA YANG KURINDU DAN KUBENCI",
-                lang: "id",
-                category: "Rindu & Kehilangan",
-                verses: `Di bawah lampu jalan yang pernah kita lewati,
+        },
+
+        {
+            id: 18,
+            title: "KOTA YANG KURINDU DAN KUBENCI",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Di bawah lampu jalan yang pernah kita lewati,
 aku masih ingat tawa yang kau sembunyikan,
 di antara ramainya Jl. Tunjungan malam itu,
 ada cerita yang tak sempat kita selesaikan.
@@ -824,406 +993,950 @@ Aku tak ingin kembali ke masa itu,
 aku hanya ingin mengingat tanpa terluka,
 sebab pernah mencintaimu di tempat-tempat itu,
 adalah sesuatu yang tak akan mudah kulupa.`
-            }
-        ];
+        }
+    ];
 
-        let favorites = JSON.parse(localStorage.getItem('bramasta_favs')) || [];
-        let activeCategoryFilter = 'all';
-        let currentActivePoem = null;
-        let fontSizePx = 18;
-        let speechSynth = window.speechSynthesis;
-        let isSpeaking = false;
-        let audioCtx = null;
-        let isAmbientOn = false;
-        let ambientOscs = [];
 
-        // Initial Load Event
-        window.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            renderPoemsList(poemsDatabase);
-            updateFavCounter();
+    /* =========================
+       VARIABLES
+    ========================= */
+
+    let favorites = JSON.parse(localStorage.getItem('bramasta_favs')) || [];
+    let activeCategoryFilter = 'all';
+    let currentActivePoem = null;
+
+    let fontSizePx = 18;
+
+    let audioCtx = null;
+    let isAmbientOn = false;
+    let ambientOscs = [];
+
+
+    /* =========================
+       INITIAL LOAD
+    ========================= */
+
+    window.addEventListener('DOMContentLoaded', () => {
+
+        initTheme();
+
+        renderPoemsList(poemsDatabase);
+
+        updateFavCounter();
+
+    });
+
+
+    /* =========================
+       RENDER POEMS
+    ========================= */
+
+    function renderPoemsList(poems) {
+
+        const grid = document.getElementById('poemsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const countText = document.getElementById('poemCountText');
+
+        grid.innerHTML = '';
+
+        if (poems.length === 0) {
+
+            emptyState.classList.remove('hidden');
+            grid.classList.add('hidden');
+
+            countText.innerText = `Menampilkan 0 puisi`;
+
+            return;
+        }
+
+        emptyState.classList.add('hidden');
+        grid.classList.remove('hidden');
+
+        countText.innerText =
+            `Menampilkan ${poems.length} karya puisi (Tersusun dalam bait 4 baris)`;
+
+        poems.forEach(poem => {
+
+            const card = createPoemCard(poem);
+
+            grid.appendChild(card);
+
         });
 
-        function renderPoemsList(poems) {
-            const grid = document.getElementById('poemsGrid');
-            const emptyState = document.getElementById('emptyState');
-            const countText = document.getElementById('poemCountText');
+    }
 
-            grid.innerHTML = '';
 
-            if (poems.length === 0) {
-                emptyState.classList.remove('hidden');
-                grid.classList.add('hidden');
-                countText.innerText = `Menampilkan 0 puisi`;
-                return;
-            }
+    /* =========================
+       CREATE POEM CARD
+    ========================= */
 
-            emptyState.classList.add('hidden');
-            grid.classList.remove('hidden');
-            countText.innerText = `Menampilkan ${poems.length} karya puisi (Tersusun dalam bait 4 baris)`;
+    function createPoemCard(poem) {
 
-            poems.forEach(poem => {
-                const card = createPoemCard(poem);
-                grid.appendChild(card);
-            });
-        }
+        const isFav = favorites.includes(poem.id);
 
-        function createPoemCard(poem) {
-            const isFav = favorites.includes(poem.id);
-            const stanzas = poem.verses.split('\n\n');
-            const firstStanza = stanzas[0] || poem.verses;
-            const totalStanzas = stanzas.length;
-            const totalLines = poem.verses.split('\n').filter(l => l.trim().length > 0).length;
+        const stanzas = poem.verses.split('\n\n');
 
-            const card = document.createElement('div');
-            card.className = "group relative bg-slate-900/80 hover:bg-slate-900 border border-slate-800/80 hover:border-amber-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-lg card-glow cursor-pointer";
+        const firstStanza = stanzas[0] || poem.verses;
 
-            card.onclick = (e) => {
-                if (e.target.closest('.fav-btn')) return;
-                openModal(poem.id);
-            };
+        const totalStanzas = stanzas.length;
 
-            card.innerHTML = `
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between text-xs text-slate-500">
-                        <span class="px-2.5 py-1 rounded-md bg-slate-950 border border-slate-800 font-medium text-amber-500">${poem.category}</span>
-                        <button onclick="toggleFav(${poem.id})" class="fav-btn p-1.5 hover:scale-125 transition-transform text-slate-600 hover:text-rose-500" title="Simpan Favorit">
-                            <i class="${isFav ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart text-base"></i>
-                        </button>
-                    </div>
+        const totalLines =
+            poem.verses
+            .split('\n')
+            .filter(l => l.trim().length > 0)
+            .length;
 
-                    <h3 class="font-serif-title text-xl font-bold text-slate-100 group-hover:text-amber-400 transition-colors">
-                        ${poem.title}
-                    </h3>
 
-                    <!-- Stanza 1 Preview with exact 4-line formatting -->
-                    <div class="font-serif text-sm text-slate-400 leading-relaxed whitespace-pre-line border-l-2 border-amber-500/40 pl-3.5 py-0.5">
-                        ${firstStanza}
-                    </div>
-                </div>
+        const card = document.createElement('div');
 
-                <div class="pt-6 mt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500">
-                    <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-amber-500/80 text-[11px]"></i> ${totalStanzas} Bait (${totalLines} Baris)</span>
-                    <span class="group-hover:translate-x-1 transition-transform flex items-center text-amber-500 font-semibold">
-                        Baca Selengkapnya <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+        card.className =
+            "group relative bg-slate-900/80 hover:bg-slate-900 border border-slate-800/80 hover:border-amber-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-lg card-glow cursor-pointer";
+
+
+        card.onclick = (e) => {
+
+            if (e.target.closest('.fav-btn')) return;
+
+            openModal(poem.id);
+
+        };
+
+
+        card.innerHTML = `
+
+            <div class="space-y-4">
+
+                <div class="flex items-center justify-between text-xs text-slate-500">
+
+                    <span class="px-2.5 py-1 rounded-md bg-slate-950 border border-slate-800 font-medium text-amber-500">
+                        ${poem.category}
                     </span>
+
+                    <button onclick="toggleFav(${poem.id})"
+                            class="fav-btn p-1.5 hover:scale-125 transition-transform text-slate-600 hover:text-rose-500"
+                            title="Simpan Favorit">
+
+                        <i class="${isFav ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart text-base"></i>
+
+                    </button>
+
                 </div>
-            `;
-            return card;
-        }
 
-        function openModal(id) {
-            const poem = poemsDatabase.find(p => p.id === id);
-            if (!poem) return;
 
-            currentActivePoem = poem;
-            const stanzas = poem.verses.split('\n\n');
-            const totalLines = poem.verses.split('\n').filter(l => l.trim().length > 0).length;
+                <h3 class="font-serif-title text-xl font-bold text-slate-100 group-hover:text-amber-400 transition-colors">
+                    ${poem.title}
+                </h3>
 
-            document.getElementById('modalTitle').innerText = poem.title;
-            document.getElementById('modalCategory').innerHTML = `${poem.category} &bull; <span class="text-slate-400 font-normal">${stanzas.length} Bait (${totalLines} Baris)</span>`;
 
-            // Format stanzas with distinct Bait labels
-            const formattedVersesHTML = stanzas.map((stanza, index) => `
+                <div class="font-serif text-sm text-slate-400 leading-relaxed whitespace-pre-line border-l-2 border-amber-500/40 pl-3.5 py-0.5">
+                    ${firstStanza}
+                </div>
+
+            </div>
+
+
+            <div class="pt-6 mt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500">
+
+                <span class="inline-flex items-center gap-1.5">
+
+                    <i class="fa-solid fa-layer-group text-amber-500/80 text-[11px]"></i>
+
+                    ${totalStanzas} Bait (${totalLines} Baris)
+
+                </span>
+
+
+                <span class="group-hover:translate-x-1 transition-transform flex items-center text-amber-500 font-semibold">
+
+                    Baca Selengkapnya
+
+                    <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+
+                </span>
+
+            </div>
+
+        `;
+
+        return card;
+    }
+
+
+    /* =========================
+       OPEN MODAL
+    ========================= */
+
+    function openModal(id) {
+
+        const poem = poemsDatabase.find(p => p.id === id);
+
+        if (!poem) return;
+
+        currentActivePoem = poem;
+
+        const stanzas = poem.verses.split('\n\n');
+
+        const totalLines =
+            poem.verses
+            .split('\n')
+            .filter(l => l.trim().length > 0)
+            .length;
+
+
+        document.getElementById('modalTitle').innerText =
+            poem.title;
+
+
+        document.getElementById('modalCategory').innerHTML =
+            `${poem.category} &bull;
+            <span class="text-slate-400 font-normal">
+                ${stanzas.length} Bait (${totalLines} Baris)
+            </span>`;
+
+
+        const formattedVersesHTML =
+            stanzas.map((stanza, index) => `
+
                 <div class="poem-stanza relative py-2">
-                    <span class="block text-[10px] font-mono uppercase tracking-widest text-amber-500/70 mb-2 select-none font-semibold">Bait ${index + 1}</span>
-                    <p class="whitespace-pre-line leading-loose font-serif">${stanza.trim()}</p>
+
+                    <span class="block text-[10px] font-mono uppercase tracking-widest text-amber-500/70 mb-2 select-none font-semibold">
+                        Bait ${index + 1}
+                    </span>
+
+                    <p class="whitespace-pre-line leading-loose font-serif">
+                        ${stanza.trim()}
+                    </p>
+
                 </div>
-            `).join('<div class="w-12 h-px bg-amber-500/20 mx-auto my-3"></div>');
 
-            document.getElementById('modalPoemText').innerHTML = formattedVersesHTML;
+            `).join(
+                '<div class="w-12 h-px bg-amber-500/20 mx-auto my-3"></div>'
+            );
 
-            // Load Saved Note
-            const savedNote = localStorage.getItem(`bramasta_note_${poem.id}`) || '';
-            document.getElementById('readerNoteInput').value = savedNote;
-            document.getElementById('noteSavedStatus').style.opacity = '0';
 
-            const modal = document.getElementById('poemModal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+        document.getElementById('modalPoemText').innerHTML =
+            formattedVersesHTML;
 
-            stopSpeech();
+
+        const savedNote =
+            localStorage.getItem(`bramasta_note_${poem.id}`) || '';
+
+        document.getElementById('readerNoteInput').value =
+            savedNote;
+
+        document.getElementById('noteSavedStatus').style.opacity = '0';
+
+
+        const modal = document.getElementById('poemModal');
+
+        modal.classList.remove('hidden');
+
+        document.body.style.overflow = 'hidden';
+
+    }
+
+
+    /* =========================
+       CLOSE MODAL
+    ========================= */
+
+    function closeModal() {
+
+        const modal =
+            document.getElementById('poemModal');
+
+        modal.classList.add('hidden');
+
+        document.body.style.overflow = '';
+
+    }
+
+
+    /* =========================
+       FONT SIZE
+    ========================= */
+
+    function adjustFontSize(delta) {
+
+        fontSizePx =
+            Math.max(
+                14,
+                Math.min(
+                    26,
+                    fontSizePx + delta
+                )
+            );
+
+        document.getElementById('modalPoemText').style.fontSize =
+            `${fontSizePx}px`;
+
+    }
+
+
+    /* =========================
+       NOTES
+    ========================= */
+
+    function saveReaderNote() {
+
+        if (!currentActivePoem) return;
+
+        const note =
+            document.getElementById('readerNoteInput').value;
+
+
+        localStorage.setItem(
+            `bramasta_note_${currentActivePoem.id}`,
+            note
+        );
+
+
+        const status =
+            document.getElementById('noteSavedStatus');
+
+        status.style.opacity = '1';
+
+
+        setTimeout(() => {
+
+            status.style.opacity = '0';
+
+        }, 2500);
+
+    }
+
+
+    /* =========================
+       AMBIENT RAIN
+    ========================= */
+
+    function toggleAmbientSound() {
+
+        if (isAmbientOn) {
+
+            stopAmbientSound();
+
+        } else {
+
+            startAmbientSound();
+
         }
 
-        function closeModal() {
-            const modal = document.getElementById('poemModal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = '';
-            stopSpeech();
-        }
+    }
 
-        function adjustFontSize(delta) {
-            fontSizePx = Math.max(14, Math.min(26, fontSizePx + delta));
-            document.getElementById('modalPoemText').style.fontSize = `${fontSizePx}px`;
-        }
 
-        function saveReaderNote() {
-            if (!currentActivePoem) return;
-            const note = document.getElementById('readerNoteInput').value;
-            localStorage.setItem(`bramasta_note_${currentActivePoem.id}`, note);
+    function startAmbientSound() {
 
-            const status = document.getElementById('noteSavedStatus');
-            status.style.opacity = '1';
-            setTimeout(() => { status.style.opacity = '0'; }, 2500);
-        }
+        try {
 
-        function toggleSpeech() {
-            if (isSpeaking) {
-                stopSpeech();
-            } else {
-                if (!currentActivePoem) return;
-                const utterance = new SpeechSynthesisUtterance(currentActivePoem.title + ". Karya Bramasta Aptila Yanuar. " + currentActivePoem.verses);
-                utterance.lang = currentActivePoem.lang === 'en' ? 'en-US' : 'id-ID';
-                utterance.rate = 0.85;
+            if (!audioCtx) {
 
-                utterance.onend = () => {
-                    isSpeaking = false;
-                    updateSpeechUI();
-                };
+                audioCtx =
+                    new (
+                        window.AudioContext ||
+                        window.webkitAudioContext
+                    )();
 
-                speechSynth.speak(utterance);
-                isSpeaking = true;
-                updateSpeechUI();
             }
-        }
 
-        function stopSpeech() {
-            if (speechSynth.speaking) {
-                speechSynth.cancel();
+
+            const bufferSize =
+                audioCtx.sampleRate * 2;
+
+
+            const noiseBuffer =
+                audioCtx.createBuffer(
+                    1,
+                    bufferSize,
+                    audioCtx.sampleRate
+                );
+
+
+            const output =
+                noiseBuffer.getChannelData(0);
+
+
+            for (let i = 0; i < bufferSize; i++) {
+
+                output[i] =
+                    Math.random() * 2 - 1;
+
             }
-            isSpeaking = false;
-            updateSpeechUI();
+
+
+            const whiteNoise =
+                audioCtx.createBufferSource();
+
+            whiteNoise.buffer =
+                noiseBuffer;
+
+            whiteNoise.loop = true;
+
+
+            const filter =
+                audioCtx.createBiquadFilter();
+
+            filter.type = 'lowpass';
+
+            filter.frequency.setValueAtTime(
+                800,
+                audioCtx.currentTime
+            );
+
+
+            const gainNode =
+                audioCtx.createGain();
+
+            gainNode.gain.setValueAtTime(
+                0.04,
+                audioCtx.currentTime
+            );
+
+
+            whiteNoise.connect(filter);
+
+            filter.connect(gainNode);
+
+            gainNode.connect(audioCtx.destination);
+
+
+            whiteNoise.start();
+
+
+            ambientOscs = [whiteNoise];
+
+            isAmbientOn = true;
+
+
+            document.getElementById('ambientIcon').className =
+                "fa-solid fa-volume-high text-amber-400";
+
+            document.getElementById('ambientText').innerText =
+                "Hujan Berjalan";
+
+
+            showToast(
+                "Suara hujan latar aktif"
+            );
+
+
+        } catch (e) {
+
+            showToast(
+                "Audio tidak didukung peramban"
+            );
+
         }
 
-        function updateSpeechUI() {
-            const btn = document.getElementById('btnSpeech');
-            const text = document.getElementById('speechBtnText');
-            if (isSpeaking) {
-                btn.classList.add('text-amber-400', 'border-amber-500/50', 'bg-amber-500/10');
-                text.innerText = 'Hentikan';
-            } else {
-                btn.classList.remove('text-amber-400', 'border-amber-500/50', 'bg-amber-500/10');
-                text.innerText = 'Suara';
-            }
-        }
+    }
 
-        function toggleAmbientSound() {
-            if (isAmbientOn) {
-                stopAmbientSound();
-            } else {
-                startAmbientSound();
-            }
-        }
 
-        function startAmbientSound() {
+    function stopAmbientSound() {
+
+        ambientOscs.forEach(osc => {
+
             try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                
-                const bufferSize = audioCtx.sampleRate * 2;
-                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const output = noiseBuffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    output[i] = Math.random() * 2 - 1;
-                }
 
-                const whiteNoise = audioCtx.createBufferSource();
-                whiteNoise.buffer = noiseBuffer;
-                whiteNoise.loop = true;
+                osc.stop();
 
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+            } catch(e) {}
 
-                const gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        });
 
-                whiteNoise.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
 
-                whiteNoise.start();
-                ambientOscs = [whiteNoise];
+        ambientOscs = [];
 
-                isAmbientOn = true;
-                document.getElementById('ambientIcon').className = "fa-solid fa-volume-high text-amber-400";
-                document.getElementById('ambientText').innerText = "Hujan Berjalan";
-                showToast("Suara hujan latar aktif");
-            } catch (e) {
-                showToast("Audio tidak didukung peramban");
-            }
+        isAmbientOn = false;
+
+
+        document.getElementById('ambientIcon').className =
+            "fa-solid fa-cloud-rain text-slate-400";
+
+        document.getElementById('ambientText').innerText =
+            "Hujan Ambience";
+
+
+        showToast(
+            "Suara hujan dimatikan"
+        );
+
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    function handleSearch() {
+
+        const query =
+            document.getElementById('searchInput')
+            .value
+            .toLowerCase()
+            .trim();
+
+
+        const btnClear =
+            document.getElementById('btnClearSearch');
+
+
+        if (query.length > 0) {
+
+            btnClear.classList.remove('hidden');
+
+        } else {
+
+            btnClear.classList.add('hidden');
+
         }
 
-        function stopAmbientSound() {
-            ambientOscs.forEach(osc => {
-                try { osc.stop(); } catch(e){}
+
+        const filtered =
+            poemsDatabase.filter(p => {
+
+                const matchTitle =
+                    p.title
+                    .toLowerCase()
+                    .includes(query);
+
+
+                const matchVerses =
+                    p.verses
+                    .toLowerCase()
+                    .includes(query);
+
+
+                const matchCategory =
+                    p.category
+                    .toLowerCase()
+                    .includes(query);
+
+
+                const matchFilter =
+                    activeCategoryFilter === 'all' ||
+                    (
+                        activeCategoryFilter === 'en'
+                        ? p.lang === 'en'
+                        : p.category === activeCategoryFilter
+                    );
+
+
+                return matchFilter &&
+                    (
+                        matchTitle ||
+                        matchVerses ||
+                        matchCategory
+                    );
+
             });
-            ambientOscs = [];
-            isAmbientOn = false;
-            document.getElementById('ambientIcon').className = "fa-solid fa-cloud-rain text-slate-400";
-            document.getElementById('ambientText').innerText = "Hujan Ambience";
-            showToast("Suara hujan dimatikan");
+
+
+        renderPoemsList(filtered);
+
+    }
+
+
+    function clearSearch() {
+
+        document.getElementById('searchInput').value = '';
+
+        document.getElementById('btnClearSearch')
+            .classList.add('hidden');
+
+        handleSearch();
+
+    }
+
+
+    /* =========================
+       CATEGORY FILTER
+    ========================= */
+
+    function setCategoryFilter(category) {
+
+        activeCategoryFilter = category;
+
+
+        const buttons =
+            document.querySelectorAll(
+                '#categoryPills .category-btn'
+            );
+
+
+        buttons.forEach(btn => {
+
+            btn.className =
+                "category-btn px-3.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all";
+
+        });
+
+
+        event.target.className =
+            "category-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium border border-amber-500 bg-amber-500 text-slate-950 transition-all";
+
+
+        handleSearch();
+
+    }
+
+
+    /* =========================
+       FAVORITES
+    ========================= */
+
+    function toggleFav(id) {
+
+        if (favorites.includes(id)) {
+
+            favorites =
+                favorites.filter(
+                    favId => favId !== id
+                );
+
+            showToast(
+                "Dihapus dari favorit"
+            );
+
+        } else {
+
+            favorites.push(id);
+
+            showToast(
+                "Ditambahkan ke favorit!"
+            );
+
         }
 
-        function handleSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const btnClear = document.getElementById('btnClearSearch');
 
-            if (query.length > 0) {
-                btnClear.classList.remove('hidden');
-            } else {
-                btnClear.classList.add('hidden');
-            }
+        localStorage.setItem(
+            'bramasta_favs',
+            JSON.stringify(favorites)
+        );
 
-            const filtered = poemsDatabase.filter(p => {
-                const matchTitle = p.title.toLowerCase().includes(query);
-                const matchVerses = p.verses.toLowerCase().includes(query);
-                const matchCategory = p.category.toLowerCase().includes(query);
-                const matchFilter = activeCategoryFilter === 'all' || 
-                                    (activeCategoryFilter === 'en' ? p.lang === 'en' : p.category === activeCategoryFilter);
 
-                return matchFilter && (matchTitle || matchVerses || matchCategory);
-            });
+        updateFavCounter();
 
-            renderPoemsList(filtered);
+        handleSearch();
+
+    }
+
+
+    function updateFavCounter() {
+
+        document.getElementById('favCounter').innerText =
+            favorites.length;
+
+    }
+
+
+    function filterFavorites() {
+
+        if (favorites.length === 0) {
+
+            showToast(
+                "Belum ada puisi favorit"
+            );
+
+            return;
         }
 
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('btnClearSearch').classList.add('hidden');
-            handleSearch();
-        }
 
-        function setCategoryFilter(category) {
-            activeCategoryFilter = category;
-            
-            // Update active pill styling
-            const buttons = document.querySelectorAll('#categoryPills .category-btn');
-            buttons.forEach(btn => {
-                btn.className = "category-btn px-3.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-all";
-            });
+        const favPoems =
+            poemsDatabase.filter(
+                p => favorites.includes(p.id)
+            );
 
-            event.target.className = "category-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium border border-amber-500 bg-amber-500 text-slate-950 transition-all";
 
-            handleSearch();
-        }
+        document.getElementById('galleryTitle').innerText =
+            "Puisi Favorit Anda";
 
-        function toggleFav(id) {
-            if (favorites.includes(id)) {
-                favorites = favorites.filter(favId => favId !== id);
-                showToast("Dihapus dari favorit");
-            } else {
-                favorites.push(id);
-                showToast("Ditambahkan ke favorit!");
-            }
 
-            localStorage.setItem('bramasta_favs', JSON.stringify(favorites));
-            updateFavCounter();
-            handleSearch();
-        }
+        renderPoemsList(favPoems);
 
-        function updateFavCounter() {
-            document.getElementById('favCounter').innerText = favorites.length;
-        }
+    }
 
-        function filterFavorites() {
-            if (favorites.length === 0) {
-                showToast("Belum ada puisi favorit");
-                return;
-            }
-            const favPoems = poemsDatabase.filter(p => favorites.includes(p.id));
-            document.getElementById('galleryTitle').innerText = "Puisi Favorit Anda";
-            renderPoemsList(favPoems);
-        }
 
-        function copyModalPoem() {
-            if (!currentActivePoem) return;
-            const fullText = `${currentActivePoem.title}\nKarya: Bramasta Aptila Yanuar\n\n${currentActivePoem.verses}`;
+    /* =========================
+       COPY POEM
+    ========================= */
 
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = fullText;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
+    function copyModalPoem() {
 
-            showToast("Teks puisi berhasil disalin!");
-        }
+        if (!currentActivePoem) return;
 
-        function readRandomPoem() {
-            const randomIndex = Math.floor(Math.random() * poemsDatabase.length);
-            openModal(poemsDatabase[randomIndex].id);
-        }
 
-        function generateRandomQuote() {
-            const quotes = [
-                '"Biarlah aku yang berjalan sendiri, meski terbuang dalam sunyi yang panjang..."',
-                '"Tanpamu, bulan hanyalah kesepian yang lebih terang."',
-                '"Sebab yang kupilih sejak awal bukan sebagian darimu, melainkan seluruh dirimu."',
-                '"Dari rasa sakit, lahirlah kekuatan baru, dari kehilangan, lahirlah diriku yang sebenarnya."',
-                '"Cinta memang memakai bahasa yang sama, tapi maknanya lahir dari siapa yang mengucapkannya."',
-                '"He fell first... when she could not. And she fell later—when he no longer did."',
-                '"Sebab cinta bukan tentang siapa yang lebih tinggi, melainkan dua hati yang memilih berjalan bersama."',
-                '"Sebab rakyat bukan angka dalam laporan tahunan, dan penderitaan bukan sesuatu yang selesai dengan konferensi pers."'
+        const fullText =
+            `${currentActivePoem.title}
+Karya: Bramasta Aptila Yanuar
+
+${currentActivePoem.verses}`;
+
+
+        const tempTextArea =
+            document.createElement('textarea');
+
+
+        tempTextArea.value =
+            fullText;
+
+
+        document.body.appendChild(
+            tempTextArea
+        );
+
+
+        tempTextArea.select();
+
+
+        document.execCommand('copy');
+
+
+        document.body.removeChild(
+            tempTextArea
+        );
+
+
+        showToast(
+            "Teks puisi berhasil disalin!"
+        );
+
+    }
+
+
+    /* =========================
+       RANDOM POEM
+    ========================= */
+
+    function readRandomPoem() {
+
+        const randomIndex =
+            Math.floor(
+                Math.random() *
+                poemsDatabase.length
+            );
+
+
+        openModal(
+            poemsDatabase[randomIndex].id
+        );
+
+    }
+
+
+    /* =========================
+       RANDOM QUOTE
+    ========================= */
+
+    function generateRandomQuote() {
+
+        const quotes = [
+
+            '"Biarlah aku yang berjalan sendiri, meski terbuang dalam sunyi yang panjang..."',
+
+            '"Tanpamu, bulan hanyalah kesepian yang lebih terang."',
+
+            '"Sebab yang kupilih sejak awal bukan sebagian darimu, melainkan seluruh dirimu."',
+
+            '"Dari rasa sakit, lahirlah kekuatan baru, dari kehilangan, lahirlah diriku yang sebenarnya."',
+
+            '"Cinta memang memakai bahasa yang sama, tapi maknanya lahir dari siapa yang mengucapkannya."',
+
+            '"He fell first... when she could not. And she fell later—when he no longer did."',
+
+            '"Sebab cinta bukan tentang siapa yang lebih tinggi, melainkan dua hati yang memilih berjalan bersama."',
+
+            '"Sebab rakyat bukan angka dalam laporan tahunan, dan penderitaan bukan sesuatu yang selesai dengan konferensi pers."'
+
+        ];
+
+
+        const random =
+            quotes[
+                Math.floor(
+                    Math.random() *
+                    quotes.length
+                )
             ];
-            const random = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('quoteText').innerText = random;
+
+
+        document.getElementById('quoteText').innerText =
+            random;
+
+    }
+
+
+    /* =========================
+       THEME
+    ========================= */
+
+    function initTheme() {
+
+        const savedTheme =
+            localStorage.getItem('bramasta_theme') ||
+            'malam';
+
+
+        const html =
+            document.documentElement;
+
+
+        const icon =
+            document.getElementById('themeIcon');
+
+
+        const text =
+            document.getElementById('themeText');
+
+
+        if (savedTheme === 'pagi') {
+
+            html.classList.remove('dark');
+
+            html.classList.add('light');
+
+
+            if (icon)
+                icon.className =
+                    "fa-solid fa-sun text-amber-500";
+
+
+            if (text)
+                text.innerText = "Pagi";
+
+        } else {
+
+            html.classList.remove('light');
+
+            html.classList.add('dark');
+
+
+            if (icon)
+                icon.className =
+                    "fa-solid fa-moon text-amber-400";
+
+
+            if (text)
+                text.innerText = "Malam";
+
         }
 
-        function initTheme() {
-            const savedTheme = localStorage.getItem('bramasta_theme') || 'malam';
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            const text = document.getElementById('themeText');
+    }
 
-            if (savedTheme === 'pagi') {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                if (icon) icon.className = "fa-solid fa-sun text-amber-500";
-                if (text) text.innerText = "Pagi";
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                if (icon) icon.className = "fa-solid fa-moon text-amber-400";
-                if (text) text.innerText = "Malam";
-            }
+
+    function toggleThemeMode() {
+
+        const html =
+            document.documentElement;
+
+
+        const icon =
+            document.getElementById('themeIcon');
+
+
+        const text =
+            document.getElementById('themeText');
+
+
+        if (html.classList.contains('dark')) {
+
+            html.classList.remove('dark');
+
+            html.classList.add('light');
+
+
+            if (icon)
+                icon.className =
+                    "fa-solid fa-sun text-amber-500";
+
+
+            if (text)
+                text.innerText = "Pagi";
+
+
+            localStorage.setItem(
+                'bramasta_theme',
+                'pagi'
+            );
+
+
+            showToast(
+                "Mode Pagi (Terang) Aktif"
+            );
+
+        } else {
+
+            html.classList.remove('light');
+
+            html.classList.add('dark');
+
+
+            if (icon)
+                icon.className =
+                    "fa-solid fa-moon text-amber-400";
+
+
+            if (text)
+                text.innerText = "Malam";
+
+
+            localStorage.setItem(
+                'bramasta_theme',
+                'malam'
+            );
+
+
+            showToast(
+                "Mode Malam (Gelap) Aktif"
+            );
+
         }
 
-        function toggleThemeMode() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            const text = document.getElementById('themeText');
+    }
 
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                if (icon) icon.className = "fa-solid fa-sun text-amber-500";
-                if (text) text.innerText = "Pagi";
-                localStorage.setItem('bramasta_theme', 'pagi');
-                showToast("Mode Pagi (Terang) Aktif");
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                if (icon) icon.className = "fa-solid fa-moon text-amber-400";
-                if (text) text.innerText = "Malam";
-                localStorage.setItem('bramasta_theme', 'malam');
-                showToast("Mode Malam (Gelap) Aktif");
-            }
-        }
 
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
+    /* =========================
+       TOAST
+    ========================= */
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
+    function showToast(msg) {
+
+        const toast =
+            document.getElementById('toast');
+
+
+        document.getElementById('toastMsg').innerText =
+            msg;
+
+
+        toast.classList.remove('hidden');
+
+
+        setTimeout(() => {
+
+            toast.classList.add('hidden');
+
+        }, 3000);
+
+    }
+
+
+    /* =========================
+       SCROLL TOP
+    ========================= */
+
+    function scrollToTop() {
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: 'smooth'
+
+        });
+
+    }
+
+</script>
+
 </body>
 </html>
