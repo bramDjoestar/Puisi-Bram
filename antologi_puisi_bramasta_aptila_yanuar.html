@@ -120,6 +120,343 @@
         html.light .card-glow:hover {
             box-shadow: 0 10px 30px -10px rgba(217, 119, 6, 0.25);
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        img,
+        svg,
+        video,
+        canvas,
+        iframe {
+            max-width: 100%;
+        }
+
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        span,
+        button,
+        a {
+            overflow-wrap: break-word;
+        }
+
+        /* =========================
+           MOBILE
+           ========================= */
+        @media (max-width: 640px) {
+
+            header {
+                padding: 10px 12px !important;
+                width: 100% !important;
+            }
+
+            header h1 {
+                font-size: 13px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            header p {
+                font-size: 8px !important;
+            }
+
+            header .w-10 {
+                width: 36px !important;
+                height: 36px !important;
+                min-width: 36px !important;
+            }
+
+            header button {
+                padding: 7px 8px !important;
+            }
+
+            #ambientText,
+            #themeText {
+                display: none !important;
+            }
+
+            /* HERO */
+            section.relative {
+                width: 100% !important;
+                padding: 32px 14px !important;
+                overflow: hidden !important;
+            }
+
+            section h2 {
+                font-size: 28px !important;
+                line-height: 1.2 !important;
+            }
+
+            /* QUOTE */
+            #quoteCard {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 20px 16px !important;
+            }
+
+            #quoteText {
+                font-size: 15px !important;
+                padding: 0 8px !important;
+                line-height: 1.7 !important;
+                overflow-wrap: anywhere !important;
+            }
+
+            /* SEARCH */
+            #searchInput {
+                width: 100% !important;
+                min-width: 0 !important;
+                font-size: 13px !important;
+            }
+
+            /* CATEGORY */
+            #categoryPills {
+                width: 100% !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 6px !important;
+            }
+
+            #categoryPills button {
+                font-size: 10px !important;
+                padding: 7px 9px !important;
+                white-space: normal !important;
+            }
+
+            /* MAIN */
+            main {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 28px 12px !important;
+                overflow: hidden !important;
+            }
+
+            /* POEM GRID */
+            #poemsGrid {
+                width: 100% !important;
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 14px !important;
+            }
+
+            #poemsGrid > div {
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+                padding: 18px !important;
+                overflow: hidden !important;
+            }
+
+            #poemsGrid h3 {
+                font-size: 18px !important;
+                line-height: 1.35 !important;
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+            }
+
+            #poemsGrid .font-serif {
+                font-size: 13px !important;
+                line-height: 1.7 !important;
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+            }
+
+            /* =========================
+               POEM MODAL
+               ========================= */
+
+            #poemModal {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 8px !important;
+                overflow: hidden !important;
+            }
+
+            #poemModal > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                max-height: 94vh !important;
+                overflow-x: hidden !important;
+                border-radius: 18px !important;
+            }
+
+            #modalHeader {
+                padding: 14px !important;
+                gap: 10px !important;
+                width: 100% !important;
+            }
+
+            #modalTitle {
+                font-size: 19px !important;
+                line-height: 1.25 !important;
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+            }
+
+            #modalContentArea {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 20px 15px !important;
+                overflow-x: hidden !important;
+            }
+
+            /* TEKS PUISI */
+            #modalPoemText {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
+                padding: 8px 2px !important;
+
+                font-size: 16px !important;
+                line-height: 1.8 !important;
+
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+                white-space: normal !important;
+            }
+
+            /* SETIAP BAIT */
+            .poem-stanza {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
+                padding: 10px 4px !important;
+
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+            }
+
+            .poem-stanza p {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+
+                white-space: pre-line !important;
+                line-height: 1.8 !important;
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+            }
+
+            /* LABEL BAIT */
+            .poem-stanza span {
+                font-size: 9px !important;
+            }
+
+            /* NOTES */
+            #readerNoteInput {
+                width: 100% !important;
+                max-width: 100% !important;
+                font-size: 11px !important;
+            }
+
+            /* BUTTONS */
+            #poemModal button {
+                max-width: 100% !important;
+            }
+
+            /* TOAST */
+            #toast {
+                left: 12px !important;
+                right: 12px !important;
+                bottom: 14px !important;
+                max-width: calc(100% - 24px) !important;
+                width: auto !important;
+            }
+        }
+
+        /* =========================
+           SMALL PHONE
+           ========================= */
+        @media (max-width: 380px) {
+
+            header {
+                padding: 8px !important;
+            }
+
+            header h1 {
+                font-size: 11px !important;
+            }
+
+            header p {
+                font-size: 7px !important;
+            }
+
+            header .w-10 {
+                width: 32px !important;
+                height: 32px !important;
+                min-width: 32px !important;
+            }
+
+            section.relative {
+                padding: 26px 10px !important;
+            }
+
+            section h2 {
+                font-size: 24px !important;
+            }
+
+            #categoryPills button {
+                font-size: 9px !important;
+                padding: 6px 7px !important;
+            }
+
+            main {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+
+            #poemsGrid > div {
+                padding: 15px !important;
+            }
+
+            #modalContentArea {
+                padding: 18px 12px !important;
+            }
+
+            #modalPoemText {
+                font-size: 15px !important;
+                line-height: 1.8 !important;
+            }
+
+            .poem-stanza {
+                padding: 8px 2px !important;
+            }
+
+            .poem-stanza p {
+                line-height: 1.8 !important;
+            }
+        }
+
+        /* =========================
+           TABLET
+           ========================= */
+        @media (min-width: 641px) and (max-width: 1024px) {
+
+            #poemsGrid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            #poemsGrid > div {
+                min-width: 0 !important;
+                max-width: 100% !important;
+            }
+
+            #modalPoemText {
+                max-width: 540px !important;
+                margin: 0 auto !important;
+            }
+        }
     </style>
 </head>
 
@@ -945,7 +1282,7 @@ sementara negeri sendiri masih sibuk mencari kata.
 Pernah bantuan datang dari tangan tetangga,
 namun harga diri lebih keras daripada api.
 Ketika ada yang ingin membantu memadamkan,
-mereka justru sibuk berkata, “kami masih mampu sendiri.”
+mereka justru sibuk berkata, "kami masih mampu sendiri."
 
 Tanah berguncang, saudara menunggu pertolongan,
 sementara bantuan terasa kecil dibanding kebutuhan.
