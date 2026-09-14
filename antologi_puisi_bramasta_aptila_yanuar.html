@@ -376,6 +376,26 @@
         }
 
         /* =========================
+           KARYA PERTAMA
+           ========================= */
+        @media (max-width: 640px) {
+            #firstPoemSection {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+
+            #firstPoemCard {
+                border-radius: 20px !important;
+            }
+
+            #firstPoemPreview {
+                font-size: 14px !important;
+                line-height: 1.8 !important;
+                padding-left: 14px !important;
+            }
+        }
+
+        /* =========================
            SMALL PHONE
            ========================= */
         @media (max-width: 380px) {
@@ -603,6 +623,65 @@
         </div>
     </section>
 
+
+    <!-- KARYA PERTAMA -->
+    <section id="firstPoemSection" class="px-4 lg:px-8 py-10 border-b border-slate-800/60 bg-gradient-to-b from-slate-950 to-slate-900/30">
+        <div class="max-w-5xl mx-auto">
+            <div id="firstPoemCard" class="relative overflow-hidden rounded-3xl border border-amber-500/30 bg-slate-900/80 shadow-2xl shadow-amber-500/5">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 p-6 sm:p-8 lg:p-10">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                        <div class="max-w-3xl">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-[11px] font-bold uppercase tracking-[0.2em]">
+                                <i class="fa-solid fa-star text-[10px]"></i>
+                                Karya Pertama
+                            </div>
+
+                            <h3 class="font-serif-title text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-100 mt-4">
+                                PUISI PERTAMA
+                            </h3>
+
+                            <p class="text-sm text-amber-400/90 font-medium mt-2">
+                                Ditulis untuk perlombaan • 10 Februari 2026
+                            </p>
+
+                            <p class="text-sm sm:text-base text-slate-400 leading-relaxed mt-5 max-w-2xl">
+                                Puisi inilah yang menjadi awal dari perjalanan antologi ini—
+                                karya pertama yang kemudian mendorong lahirnya puisi-puisi lainnya.
+                            </p>
+                        </div>
+
+                        <button onclick="openModal(17)"
+                                class="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-amber-500/10">
+                            <i class="fa-solid fa-book-open"></i>
+                            Baca Karya Pertama
+                        </button>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-800/80">
+                        <div class="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-amber-500/70 mb-4">
+                            <i class="fa-solid fa-feather-pointed"></i>
+                            Awal Perjalanan
+                        </div>
+
+                        <div id="firstPoemPreview" class="font-serif text-base sm:text-lg text-slate-300 leading-relaxed border-l-2 border-amber-500/40 pl-5 whitespace-pre-line">
+Kami belum tentu tahu harus sekuat apa bertahan,
+tapi negeri menuntut kami terus melangkah.
+Langkah ini berat oleh rantai dan darah,
+namun berhenti berarti mengkhianati tanah.
+                        </div>
+
+                        <div class="mt-5 text-xs text-slate-500 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right text-amber-500/70"></i>
+                            Klik tombol di atas untuk membaca seluruh karya.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- MAIN -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-10">
@@ -1302,6 +1381,53 @@ meski mereka berharap kami lupa.`
         },
 
         {
+            id: 17,
+            title: "PUISI PERTAMA",
+            lang: "id",
+            category: "Karya Pertama",
+            special: true,
+            date: "10 Februari 2026",
+            verses: `Kami belum tentu tahu harus sekuat apa bertahan,
+tapi negeri menuntut kami terus melangkah.
+Langkah ini berat oleh rantai dan darah,
+namun berhenti berarti mengkhianati tanah.
+
+Kami dibesarkan oleh janji kemerdekaan,
+oleh sejarah yang ditulis di atas pengorbanan.
+Tangis disembunyikan di balik pekik merdeka,
+sebab bangsa tak diajarkan untuk terlihat
+lemah.
+
+Katanya kita diayomi mereka, katanya kita dibantu dan disayang oleh mereka, namun saat banjir datang, yang saling menolong tetap rakyat biasa.
+
+Dulu, para leluhur menaruh harapan akan masa depan yang cerah pada doa-doa yang dilantunkan di atas senjata sambil meneriakkan kata MERDEKA, berjuang tanpa henti, tanpa takut, dan tanpa lelah demi membebaskan serta mempertahankan negara yang mereka cinta.
+
+Namun kini, perjuangan paling sulit adalah melawan orde-orde yang menelan banyak korban, ketika merekam kebenaran berujung penjara dan penghakiman, ketika praktik nepotisme menutup mata terhadap kelaparan, dan ketika tangan besi telah terlanjur ditanam dalam-dalam di tanah yang dulu diperjuangkan dengan darah.
+
+Jika kematian adalah harga perubahan,
+mengapa yang gugur selalu paling berani?
+Jika runtuhnya menara adalah tanda merdeka,
+biarlah—
+sebab berdiri di bawah penindasan
+hanya memperpanjang luka.
+
+Kami belum tentu benar di mata penguasa,
+namun sejarah sering membenarkan yang dibungkam.
+Kami belum tentu kuat menahan segalanya,
+tapi perjuangan tak pernah memberi pilihan lain.
+
+Mereka berpura-pura baik saat hendak diangkat, diberi hati namun masih menuntut paru-paru, berlagak bersih bak kalpataru yang dipuja, namun pikirannya telah membakar lahan-lahan hijau yang dulu asri dan tenteram.
+
+Namun peradaban takkan pernah mati,
+walau diledakkan, diancam untuk diobati,
+sebab peradaban berputar abadi,
+kebal luka bakar, tusuk, maupun caci maki.
+Dan peradaban akan terus berputar memperjuangkan tanah air,
+bak leluhur yang dahulu berdoa dan bersyair mengharapkan terbaik
+untuk negara yang kami cintai.`
+        },
+
+        {
             id: 18,
             title: "KOTA YANG KURINDU DAN KUBENCI",
             lang: "id",
@@ -1357,7 +1483,7 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
         initTheme();
 
-        renderPoemsList(poemsDatabase);
+        renderPoemsList(poemsDatabase.filter(p => !p.special));
 
         updateFavCounter();
 
@@ -1369,6 +1495,8 @@ adalah sesuatu yang tak akan mudah kulupa.`
     ========================= */
 
     function renderPoemsList(poems) {
+
+        poems = poems.filter(p => !p.special);
 
         const grid = document.getElementById('poemsGrid');
         const emptyState = document.getElementById('emptyState');
@@ -1829,7 +1957,7 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
 
         const filtered =
-            poemsDatabase.filter(p => {
+            poemsDatabase.filter(p => !p.special).filter(p => {
 
                 const matchTitle =
                     p.title
@@ -1979,7 +2107,7 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
 
         const favPoems =
-            poemsDatabase.filter(
+            poemsDatabase.filter(p => !p.special).filter(
                 p => favorites.includes(p.id)
             );
 
