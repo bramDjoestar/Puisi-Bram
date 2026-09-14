@@ -29,6 +29,9 @@
         }
     </script>
     
+    <!-- SoundCloud Widget API (untuk musik latar) -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -505,10 +508,10 @@
             <!-- Navigation -->
             <div class="flex items-center gap-2 sm:gap-3">
 
-                <!-- Ambient Rain -->
-                <button id="btnAmbient" onclick="toggleAmbientSound()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Putar Suara Hujan Ambience">
-                    <i id="ambientIcon" class="fa-solid fa-cloud-rain text-slate-400"></i>
-                    <span id="ambientText" class="hidden md:inline">Hujan Ambience</span>
+                <!-- Musik Latar (SoundCloud) -->
+                <button id="btnAmbient" onclick="toggleAmbientSound()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Putar Musik Latar">
+                    <i id="ambientIcon" class="fa-solid fa-music text-slate-400"></i>
+                    <span id="ambientText" class="hidden md:inline">Musik Latar</span>
                 </button>
 
                 <!-- Random Poem -->
@@ -852,6 +855,16 @@ namun berhenti berarti mengkhianati tanah.
 
         </div>
     </div>
+
+
+    <!-- SOUNDCLOUD PLAYER (tersembunyi, hanya audio) -->
+    <iframe id="scPlayer"
+            style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; left:-9999px;"
+            scrolling="no"
+            frameborder="no"
+            allow="autoplay"
+            src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fthanh-tung-284086793%2Fhoa-si-toi-lofi-ver&color=%23f59e0b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
+    </iframe>
 
 
     <!-- TOAST -->
@@ -1470,9 +1483,9 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
     let fontSizePx = 18;
 
-    let audioCtx = null;
+    let scWidget = null;
     let isAmbientOn = false;
-    let ambientOscs = [];
+    let isScReady = false;
 
 
     /* =========================
@@ -1486,6 +1499,8 @@ adalah sesuatu yang tak akan mudah kulupa.`
         renderPoemsList(poemsDatabase.filter(p => !p.special));
 
         updateFavCounter();
+
+        initSoundCloudWidget();
 
     });
 
@@ -1778,103 +1793,78 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
 
     /* =========================
-       AMBIENT RAIN
+       MUSIK LATAR (SOUNDCLOUD)
     ========================= */
 
-    function toggleAmbientSound() {
+    function initSoundCloudWidget() {
 
-        if (isAmbientOn) {
+        try {
 
-            stopAmbientSound();
+            const iframeEl =
+                document.getElementById('scPlayer');
 
-        } else {
+            if (!iframeEl || typeof SC === 'undefined') return;
 
-            startAmbientSound();
+            scWidget = SC.Widget(iframeEl);
+
+            scWidget.bind(SC.Widget.Events.READY, () => {
+
+                isScReady = true;
+
+                scWidget.setVolume(55);
+
+                // Loop otomatis: begitu lagu selesai, ulangi dari awal.
+                scWidget.bind(SC.Widget.Events.FINISH, () => {
+
+                    scWidget.seekTo(0);
+                    scWidget.play();
+
+                });
+
+            });
+
+        } catch (e) {
+
+            isScReady = false;
 
         }
 
     }
 
 
-    function startAmbientSound() {
+    function toggleAmbientSound() {
 
-        try {
+        if (!isScReady || !scWidget) {
 
-            if (!audioCtx) {
-
-                audioCtx =
-                    new (
-                        window.AudioContext ||
-                        window.webkitAudioContext
-                    )();
-
-            }
-
-
-            const bufferSize =
-                audioCtx.sampleRate * 2;
-
-
-            const noiseBuffer =
-                audioCtx.createBuffer(
-                    1,
-                    bufferSize,
-                    audioCtx.sampleRate
-                );
-
-
-            const output =
-                noiseBuffer.getChannelData(0);
-
-
-            for (let i = 0; i < bufferSize; i++) {
-
-                output[i] =
-                    Math.random() * 2 - 1;
-
-            }
-
-
-            const whiteNoise =
-                audioCtx.createBufferSource();
-
-            whiteNoise.buffer =
-                noiseBuffer;
-
-            whiteNoise.loop = true;
-
-
-            const filter =
-                audioCtx.createBiquadFilter();
-
-            filter.type = 'lowpass';
-
-            filter.frequency.setValueAtTime(
-                800,
-                audioCtx.currentTime
+            showToast(
+                "Pemutar musik belum siap, coba lagi sebentar"
             );
 
+            return;
+        }
 
-            const gainNode =
-                audioCtx.createGain();
 
-            gainNode.gain.setValueAtTime(
-                0.04,
-                audioCtx.currentTime
+        if (isAmbientOn) {
+
+            scWidget.pause();
+
+            isAmbientOn = false;
+
+
+            document.getElementById('ambientIcon').className =
+                "fa-solid fa-music text-slate-400";
+
+            document.getElementById('ambientText').innerText =
+                "Musik Latar";
+
+
+            showToast(
+                "Musik latar dimatikan"
             );
 
+        } else {
 
-            whiteNoise.connect(filter);
-
-            filter.connect(gainNode);
-
-            gainNode.connect(audioCtx.destination);
-
-
-            whiteNoise.start();
-
-
-            ambientOscs = [whiteNoise];
+            scWidget.play();
 
             isAmbientOn = true;
 
@@ -1883,53 +1873,14 @@ adalah sesuatu yang tak akan mudah kulupa.`
                 "fa-solid fa-volume-high text-amber-400";
 
             document.getElementById('ambientText').innerText =
-                "Hujan Berjalan";
+                "Musik Berjalan";
 
 
             showToast(
-                "Suara hujan latar aktif"
-            );
-
-
-        } catch (e) {
-
-            showToast(
-                "Audio tidak didukung peramban"
+                "Musik latar diputar (loop)"
             );
 
         }
-
-    }
-
-
-    function stopAmbientSound() {
-
-        ambientOscs.forEach(osc => {
-
-            try {
-
-                osc.stop();
-
-            } catch(e) {}
-
-        });
-
-
-        ambientOscs = [];
-
-        isAmbientOn = false;
-
-
-        document.getElementById('ambientIcon').className =
-            "fa-solid fa-cloud-rain text-slate-400";
-
-        document.getElementById('ambientText').innerText =
-            "Hujan Ambience";
-
-
-        showToast(
-            "Suara hujan dimatikan"
-        );
 
     }
 
