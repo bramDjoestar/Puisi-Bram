@@ -1696,6 +1696,12 @@ adalah sesuatu yang tak akan mudah kulupa.`
 
         modal.classList.remove('hidden');
 
+        // Selalu mulai dari bait pertama setiap kali puisi dibuka.
+        const modalContentArea =
+            document.getElementById('modalContentArea');
+
+        modalContentArea.scrollTop = 0;
+
         document.body.style.overflow = 'hidden';
 
     }
