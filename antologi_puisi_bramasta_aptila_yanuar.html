@@ -508,10 +508,10 @@
             <!-- Navigation -->
             <div class="flex items-center gap-2 sm:gap-3">
 
-                <!-- Musik Latar (SoundCloud) -->
-                <button id="btnAmbient" onclick="toggleAmbientSound()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Putar Musik Latar">
-                    <i id="ambientIcon" class="fa-solid fa-music text-slate-400"></i>
-                    <span id="ambientText" class="hidden md:inline">Musik Latar</span>
+                <!-- Gacha Lagu (SoundCloud) -->
+                <button id="btnAmbient" onclick="openGachaPanel()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:border-amber-500/50 text-xs font-medium text-slate-300 hover:text-amber-400 transition-all" title="Gacha Lagu">
+                    <i id="ambientIcon" class="fa-solid fa-dice text-slate-400"></i>
+                    <span id="ambientText" class="hidden md:inline">Gacha Lagu</span>
                 </button>
 
                 <!-- Random Poem -->
@@ -857,13 +857,64 @@ namun berhenti berarti mengkhianati tanah.
     </div>
 
 
+    <!-- GACHA LAGU -->
+    <div id="gachaModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4" onclick="if(event.target===this) closeGachaPanel()">
+
+        <div class="relative w-full max-w-sm rounded-2xl shadow-2xl border border-slate-800 bg-slate-900 overflow-hidden">
+
+            <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] font-mono tracking-wider uppercase text-amber-500 font-semibold">Roulette</span>
+                    <h3 class="font-serif-title text-lg font-bold text-slate-100 leading-tight">Gacha Lagu</h3>
+                </div>
+                <button onclick="closeGachaPanel()" class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-rose-950/80 border border-slate-800 hover:border-rose-500/50 flex items-center justify-center text-slate-400 hover:text-rose-400 transition-all" title="Tutup">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="p-5 space-y-4">
+
+                <!-- Reel -->
+                <div class="relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden py-2">
+                    <div id="gachaPrev" class="text-center text-xs text-slate-600 px-3 py-2 truncate">&nbsp;</div>
+                    <div id="gachaCurrent" class="text-center font-serif-title text-base font-bold text-amber-400 px-3 py-3 border-y border-amber-500/30 bg-amber-500/5 truncate">Putar untuk gacha</div>
+                    <div id="gachaNext" class="text-center text-xs text-slate-600 px-3 py-2 truncate">&nbsp;</div>
+                </div>
+
+                <!-- Now playing -->
+                <div id="gachaNowPlaying" class="hidden text-center text-xs text-slate-400">
+                    <i class="fa-solid fa-music text-amber-500 mr-1"></i>
+                    Sedang diputar (loop): <span id="gachaNowTitle" class="text-slate-200 font-semibold"></span>
+                </div>
+
+                <button id="gachaSpinBtn" onclick="spinGacha()" class="w-full px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-dice"></i>
+                    <span id="gachaSpinText">Gacha!</span>
+                </button>
+
+                <div id="gachaControls" class="hidden flex items-center gap-2">
+                    <button id="gachaPlayPauseBtn" onclick="togglePlayPause()" class="flex-1 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-all flex items-center justify-center gap-1.5">
+                        <i id="gachaPlayPauseIcon" class="fa-solid fa-pause"></i>
+                        <span id="gachaPlayPauseText">Jeda</span>
+                    </button>
+                    <button onclick="stopGachaMusic()" class="flex-1 px-3 py-2 bg-slate-800 hover:bg-rose-950/80 text-slate-300 hover:text-rose-400 text-xs font-medium rounded-lg transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-stop"></i>
+                        Matikan
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <!-- SOUNDCLOUD PLAYER (tersembunyi, hanya audio) -->
     <iframe id="scPlayer"
             style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; left:-9999px;"
             scrolling="no"
             frameborder="no"
             allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fthanh-tung-284086793%2Fhoa-si-toi-lofi-ver&color=%23f59e0b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
+            src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fbleachers%2Fmerry-christmas-please-dont&color=%23f59e0b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
     </iframe>
 
 
@@ -1912,8 +1963,26 @@ sialnya, aku masih mencintaimu.`
 
 
     /* =========================
-       MUSIK LATAR (SOUNDCLOUD)
+       GACHA LAGU (SOUNDCLOUD)
     ========================= */
+
+    const gachaSongs = [
+        { title: "Merry Christmas, Please Don't Call", url: "https://soundcloud.com/bleachers/merry-christmas-please-dont" },
+        { title: "About You", url: "https://soundcloud.com/the1975/about-you" },
+        { title: "Membasuh", url: "https://soundcloud.com/idris-komara-646834238/hindia-membasuh-ft-rara-sekar" },
+        { title: "Rumah ke Rumah", url: "https://soundcloud.com/dandi-dwie-lisadi/hindia-rumah-ke-rumah" },
+        { title: "Blue with Minnie", url: "https://soundcloud.com/yungkaai/blue-with-minnie" },
+        { title: "Merry Christmas, I Miss You", url: "https://soundcloud.com/star-named-the-sun/alex-crichton-merry-christmas" },
+        { title: "Semua Lagu Cinta Terdengar Sama", url: "https://soundcloud.com/maju-se-arah/semua-lagu-cinta-terdengar" },
+        { title: "Location Unknown (with Niki)", url: "https://soundcloud.com/hellohonne/location-unknown-10-years-feat" },
+        { title: "I Really Want to Stay at Your House", url: "https://soundcloud.com/gusitavo98/i-really-want-to-stay-at-your" },
+        { title: "No One Noticed", url: "https://soundcloud.com/themarias/no-one-noticed" }
+    ];
+
+    let isSpinning = false;
+    let currentSongIndex = -1;
+    let isPaused = false;
+
 
     function initSoundCloudWidget() {
 
@@ -1932,13 +2001,15 @@ sialnya, aku masih mencintaimu.`
 
                 scWidget.setVolume(55);
 
-                // Loop otomatis: begitu lagu selesai, ulangi dari awal.
-                scWidget.bind(SC.Widget.Events.FINISH, () => {
+            });
 
-                    scWidget.seekTo(0);
-                    scWidget.play();
+            // Loop otomatis: begitu lagu selesai, ulangi dari awal.
+            scWidget.bind(SC.Widget.Events.FINISH, () => {
 
-                });
+                if (!isAmbientOn) return;
+
+                scWidget.seekTo(0);
+                scWidget.play();
 
             });
 
@@ -1951,7 +2022,39 @@ sialnya, aku masih mencintaimu.`
     }
 
 
-    function toggleAmbientSound() {
+    function openGachaPanel() {
+
+        document.getElementById('gachaModal').classList.remove('hidden');
+
+    }
+
+
+    function closeGachaPanel() {
+
+        document.getElementById('gachaModal').classList.add('hidden');
+
+    }
+
+
+    function renderReel(index) {
+
+        const n = gachaSongs.length;
+
+        document.getElementById('gachaPrev').innerText =
+            gachaSongs[(index - 1 + n) % n].title;
+
+        document.getElementById('gachaCurrent').innerText =
+            gachaSongs[index].title;
+
+        document.getElementById('gachaNext').innerText =
+            gachaSongs[(index + 1) % n].title;
+
+    }
+
+
+    function spinGacha() {
+
+        if (isSpinning) return;
 
         if (!isScReady || !scWidget) {
 
@@ -1963,43 +2066,182 @@ sialnya, aku masih mencintaimu.`
         }
 
 
-        if (isAmbientOn) {
+        const n = gachaSongs.length;
 
-            scWidget.pause();
+        // Pilih pemenang di awal (hindari lagu yang sama dengan sebelumnya)
+        let winner;
 
-            isAmbientOn = false;
+        do {
 
+            winner = Math.floor(Math.random() * n);
 
-            document.getElementById('ambientIcon').className =
-                "fa-solid fa-music text-slate-400";
-
-            document.getElementById('ambientText').innerText =
-                "Musik Latar";
+        } while (n > 1 && winner === currentSongIndex);
 
 
-            showToast(
-                "Musik latar dimatikan"
-            );
+        isSpinning = true;
 
-        } else {
+        document.getElementById('gachaSpinBtn').disabled = true;
+        document.getElementById('gachaSpinBtn').classList.add('opacity-60', 'cursor-not-allowed');
+        document.getElementById('gachaSpinText').innerText = "Memutar...";
+
+
+        // Siapkan lagu pemenang saat klik (masih dalam gestur pengguna)
+        scWidget.load(
+            gachaSongs[winner].url + '',
+            {
+                auto_play: false,
+                hide_related: true,
+                show_comments: false,
+                show_user: false,
+                show_reposts: false,
+                show_teaser: false,
+                visual: false
+            }
+        );
+
+
+        // Urutan putaran: berhenti tepat di pemenang, makin lama makin lambat
+        const totalSteps = 24 + Math.floor(Math.random() * n);
+
+        let step = 0;
+
+        let index = ((winner - totalSteps) % n + n) % n;
+
+
+        function tick() {
+
+            index = (index + 1) % n;
+
+            renderReel(index);
+
+            step++;
+
+            if (step >= totalSteps) {
+
+                finishSpin(winner);
+
+                return;
+            }
+
+            // delay naik bertahap: cepat di awal, melambat di akhir
+            const progress = step / totalSteps;
+
+            const delay = 55 + Math.pow(progress, 3) * 420;
+
+            setTimeout(tick, delay);
+
+        }
+
+
+        tick();
+
+    }
+
+
+    function finishSpin(winner) {
+
+        currentSongIndex = winner;
+
+        isSpinning = false;
+
+
+        const btn = document.getElementById('gachaSpinBtn');
+
+        btn.disabled = false;
+        btn.classList.remove('opacity-60', 'cursor-not-allowed');
+
+        document.getElementById('gachaSpinText').innerText = "Gacha Lagi!";
+
+
+        isAmbientOn = true;
+        isPaused = false;
+
+        scWidget.play();
+
+
+        document.getElementById('gachaNowTitle').innerText =
+            gachaSongs[winner].title;
+
+        document.getElementById('gachaNowPlaying').classList.remove('hidden');
+        document.getElementById('gachaControls').classList.remove('hidden');
+
+        updatePlayPauseUI();
+
+        document.getElementById('ambientIcon').className =
+            "fa-solid fa-volume-high text-amber-400";
+
+
+        showToast(
+            "Kamu dapat: " + gachaSongs[winner].title
+        );
+
+    }
+
+
+    function togglePlayPause() {
+
+        if (!isScReady || !scWidget || currentSongIndex < 0) return;
+
+        if (isPaused) {
 
             scWidget.play();
 
-            isAmbientOn = true;
+            isPaused = false;
 
+            isAmbientOn = true;
 
             document.getElementById('ambientIcon').className =
                 "fa-solid fa-volume-high text-amber-400";
 
-            document.getElementById('ambientText').innerText =
-                "Musik Berjalan";
+        } else {
 
+            scWidget.pause();
 
-            showToast(
-                "Musik latar diputar (loop)"
-            );
+            isPaused = true;
+
+            document.getElementById('ambientIcon').className =
+                "fa-solid fa-dice text-slate-400";
 
         }
+
+        updatePlayPauseUI();
+
+    }
+
+
+    function updatePlayPauseUI() {
+
+        document.getElementById('gachaPlayPauseIcon').className =
+            isPaused ? "fa-solid fa-play" : "fa-solid fa-pause";
+
+        document.getElementById('gachaPlayPauseText').innerText =
+            isPaused ? "Lanjut" : "Jeda";
+
+    }
+
+
+    function stopGachaMusic() {
+
+        if (scWidget) scWidget.pause();
+
+        isAmbientOn = false;
+        isPaused = false;
+        currentSongIndex = -1;
+
+        document.getElementById('gachaNowPlaying').classList.add('hidden');
+        document.getElementById('gachaControls').classList.add('hidden');
+        document.getElementById('gachaSpinText').innerText = "Gacha!";
+
+        document.getElementById('gachaCurrent').innerText = "Putar untuk gacha";
+        document.getElementById('gachaPrev').innerHTML = "&nbsp;";
+        document.getElementById('gachaNext').innerHTML = "&nbsp;";
+
+        document.getElementById('ambientIcon').className =
+            "fa-solid fa-dice text-slate-400";
+
+        showToast(
+            "Musik dimatikan"
+        );
 
     }
 
