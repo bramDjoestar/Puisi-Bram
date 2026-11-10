@@ -1752,6 +1752,17 @@ you are perfection, beyond what my words could ever be.`
 
 
     /* =========================
+       DETEKSI IN-APP BROWSER
+       (Instagram / Facebook / TikTok / WhatsApp / Line, dll)
+    ========================= */
+
+    function detectInAppBrowser() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        return /Instagram|FBAN|FBAV|FB_IAB|Line|WhatsApp|Twitter|LinkedIn|Snapchat|Pinterest|TikTok|musical_ly|BytedanceWebview/i.test(ua);
+    }
+
+
+    /* =========================
        INITIAL LOAD
     ========================= */
 
@@ -1764,6 +1775,15 @@ you are perfection, beyond what my words could ever be.`
         updateFavCounter();
 
         initSoundCloudWidget();
+
+        // Peringatan dini jika user sedang di Instagram/WebView
+        if (detectInAppBrowser()) {
+            setTimeout(() => {
+                showToast(
+                    "Kamu sedang di In-App Browser. Musik mungkin terblokir. Buka di Chrome/Safari untuk hasil terbaik."
+                );
+            }, 1200);
+        }
 
     });
 
@@ -2096,6 +2116,20 @@ you are perfection, beyond what my words could ever be.`
 
             });
 
+            // Sinkronkan state pause/play dengan status widget sebenarnya.
+            scWidget.bind(SC.Widget.Events.PLAY, () => {
+                isPaused = false;
+                isAmbientOn = true;
+                updatePlayPauseUI();
+                const icon = document.getElementById('ambientIcon');
+                if (icon) icon.className = "fa-solid fa-volume-high text-amber-400";
+            });
+
+            scWidget.bind(SC.Widget.Events.PAUSE, () => {
+                isPaused = true;
+                updatePlayPauseUI();
+            });
+
             // Loop otomatis: begitu lagu selesai, ulangi dari awal.
             scWidget.bind(SC.Widget.Events.FINISH, () => {
 
@@ -2178,11 +2212,16 @@ you are perfection, beyond what my words could ever be.`
         document.getElementById('gachaSpinText').innerText = "Memutar...";
 
 
-        // Siapkan lagu pemenang saat klik (masih dalam gestur pengguna)
+        // ====================================================
+        // 🔑 FIX UTAMA
+        // auto_play: true — dipanggil LANGSUNG di dalam user
+        // gesture (klik tombol), sehingga browser mengizinkan
+        // pemutaran audio. Tidak lagi dipanggil dari setTimeout.
+        // ====================================================
         scWidget.load(
-            gachaSongs[winner].url + '',
+            gachaSongs[winner].url,
             {
-                auto_play: false,
+                auto_play: true,          // ← KUNCI PERBAIKAN
                 hide_related: true,
                 show_comments: false,
                 show_user: false,
@@ -2249,8 +2288,6 @@ you are perfection, beyond what my words could ever be.`
         isAmbientOn = true;
         isPaused = false;
 
-        scWidget.play();
-
 
         document.getElementById('gachaNowTitle').innerText =
             gachaSongs[winner].title;
@@ -2262,6 +2299,38 @@ you are perfection, beyond what my words could ever be.`
 
         document.getElementById('ambientIcon').className =
             "fa-solid fa-volume-high text-amber-400";
+
+
+        // ====================================================
+        // 🔑 DETEKSI: pastikan audio benar-benar jalan.
+        // Jika browser/WebView memblokir autoplay, beri tahu user
+        // agar mereka bisa menekan tombol "Lanjut" secara manual
+        // (dan itu akan berhasil karena ada di user gesture).
+        // ====================================================
+        setTimeout(() => {
+
+            if (!scWidget) return;
+
+            scWidget.isPaused((paused) => {
+
+                if (paused) {
+
+                    isPaused = true;
+
+                    updatePlayPauseUI();
+
+                    document.getElementById('ambientIcon').className =
+                        "fa-solid fa-dice text-slate-400";
+
+                    showToast(
+                        "Autoplay diblokir browser. Ketuk 'Lanjut' untuk memutar."
+                    );
+
+                }
+
+            });
+
+        }, 1500);
 
 
         showToast(
@@ -2277,6 +2346,8 @@ you are perfection, beyond what my words could ever be.`
 
         if (isPaused) {
 
+            // Ini berjalan di dalam user gesture (klik tombol),
+            // sehingga browser pasti mengizinkan play().
             scWidget.play();
 
             isPaused = false;
