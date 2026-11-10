@@ -708,6 +708,7 @@ namun berhenti berarti mengkhianati tanah.
 
         </div>
 
+
         <!-- POEM GRID -->
         <div id="poemsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
@@ -960,36 +961,786 @@ namun berhenti berarti mengkhianati tanah.
 <script>
 
     /* =========================
-       VARIABLES & STORAGE HELPERS
+       DATABASE PUISI
     ========================= */
 
-    // Helper aman untuk menangani localStorage jika terlarang/diblokir oleh iframe sandbox
-    function safeGetItem(key, defaultValue = null) {
-        try {
-            const item = localStorage.getItem(key);
-            return item !== null ? item : defaultValue;
-        } catch (e) {
-            console.warn("localStorage tidak dapat diakses:", e);
-            return defaultValue;
+    const poemsDatabase = [
+        {
+            id: 1,
+            title: "TERBUANG DALAM WAKTU",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Aku berdiri di antara detik yang retak,
+menatap bayang yang enggan menetap,
+suara-suara memanggil dari masa lalu,
+namun kakiku diam, tak tahu menuju.
+
+Hari berganti tanpa sempat ku genggam,
+seperti pasir jatuh dari tangan yang diam,
+ada mimpi yang dulu bersinar terang,
+kini redup, hilang tanpa pulang.
+
+Aku bertanya pada langit yang bisu,
+apakah aku masih menjadi diriku,
+atau hanya serpihan yang tertinggal jauh,
+di antara harapan yang pernah utuh.
+
+Jika waktu tak mau menoleh kembali,
+biarlah aku yang berjalan sendiri,
+meski terbuang dalam sunyi yang panjang,
+aku akan hidup, walau tanpa terang.`
+        },
+
+        {
+            id: 2,
+            title: "JARAK ANTARA KITA DAN BULAN",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Aku terbiasa hidup tanpa langit,
+hanya lorong-lorong sunyi dan suara mesin.
+Tak ada mimpi, hanya pelarian tanpa arah,
+dan hati yang sudah lama berhenti berharap.
+
+Lalu kau datang dengan cahaya yang ceroboh,
+seolah dunia belum mengajarimu tentang luka.
+Kau menatapku bukan sebagai bayangan,
+tapi sebagai seseorang yang masih bisa pulang.
+
+Kau berbicara tentang bulan seperti janji,
+tentang tempat yang jauh dari rasa sakit.
+Dan untuk pertama kalinya setelah sekian lama,
+aku ingin percaya pada sesuatu yang rapuh.
+
+Namun cahaya sepertimu tak pernah abadi,
+ia membakar dirinya sendiri untuk tetap bersinar.
+Aku melihatmu menjauh, sedikit demi sedikit,
+hingga yang tersisa hanya kenangan dan kehampaan.
+
+Kini aku berdiri di tempat yang pernah kita impikan,
+di bawah langit yang begitu luas dan asing.
+Aku berhasil sampai ke sini, seperti katamu—
+tapi tanpamu, bulan hanyalah kesepian yang lebih terang.`
+        },
+
+        {
+            id: 3,
+            title: "SEBELUM DUNIA BERAKHIR DIAM-DIAM",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Aku pernah menjadi dunia yang hampir runtuh,
+tersenyum agar tak ada yang melihat retaknya.
+Hari-hari berjalan seperti biasa bagi semua orang,
+kecuali hatiku yang perlahan kehilangan bentuknya.
+
+Kau hadir tanpa membawa jawaban,
+hanya langkah kecil di samping langkahku.
+Kau mendengarkan bahkan saat aku terdiam,
+seolah diamku pun layak untuk dipahami.
+
+Kita berjalan melewati kenangan yang patah,
+melihat ketakutan yang kusembunyikan dari diriku sendiri.
+Kau tidak mencoba menghapusnya,
+kau hanya tinggal saat semuanya terasa terlalu berat.
+
+Ada dunia yang hanya bisa ada bersamamu,
+tempat di mana aku tidak perlu berpura-pura kuat.
+Di sana, waktu berhenti menjadi musuh,
+dan aku bisa hidup tanpa takut kehilangan diriku.
+
+Namun semua ruang memiliki akhirnya sendiri,
+bahkan yang terasa abadi sekalipun.
+Jika aku harus pergi agar kau tetap utuh,
+biarlah aku menjadi kenangan yang kau selamatkan.`
+        },
+
+        {
+            id: 4,
+            title: "YANG TINGGAL SETELAH KAU PERGI",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Aku masih melihatmu di tempat yang sama,
+di sudut-sudut yang tak pernah berubah.
+Seolah waktu menolak membawamu pergi,
+dan membiarkan bayangmu tinggal bersamaku.
+
+Aku bicara pada udara yang kosong,
+berharap kau menjawab seperti dulu.
+Namun yang kembali hanya keheningan,
+dan detak jantungku yang semakin asing.
+
+Aku mencoba berjalan lebih jauh tanpamu,
+meyakinkan diri bahwa kau telah usai.
+Tapi setiap malam kau kembali lagi,
+bukan sebagai nyata, tapi sebagai rasa.
+
+Kau bukan lagi seseorang yang bisa kusentuh,
+hanya jejak yang menolak untuk hilang.
+Tinggal di antara ingatan dan penyesalan,
+menjadi sesuatu yang tak bisa kulepaskan.
+
+Jika kau memang harus tetap di sana, tak apa,
+tinggallah sejauh yang kau mau.
+Aku akan belajar hidup berdampingan denganmu—
+sebagai seseorang yang kucintai, dan tak pernah benar-benar pergi.`
+        },
+
+        {
+            id: 5,
+            title: "AKU MASIH DISINI",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Aku pernah berdiri di antara sisa-sisa diriku,
+napas gemetar, hati hampir menyerah.
+Dunia berkata aku tak akan sanggup,
+dan untuk sesaat... aku hampir percaya.
+
+Aku belajar berjalan dengan luka terbuka,
+tersenyum meski dunia tak lagi ramah.
+Setiap jatuh mengajarkanku satu hal—
+bahwa aku lebih kuat dari yang mereka kira.
+
+Mereka pikir aku akan menghilang,
+menjadi bayangan dari seseorang yang pernah ada.
+Namun aku tetap di sini, masih bernapas,
+masih membawa api yang tak berhasil mereka padamkan.
+
+Aku bukan lagi orang yang dulu mereka hancurkan,
+aku adalah seseorang yang mereka ciptakan tanpa sengaja.
+Dari rasa sakit, lahirlah kekuatan baru,
+dari kehilangan, lahirlah diriku yang sebenarnya.
+
+Dan kini aku berdiri tanpa rasa takut,
+bukan karena dunia menjadi lebih mudah,
+tapi karena aku tahu, apa pun yang datang—
+aku akan tetap hidup... dan tak akan pernah hilang lagi.`
+        },
+
+        {
+            id: 6,
+            title: "BIRU ADALAH KITA",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Kau hadir seperti langit yang tenang,
+mewarnai duniaku dengan sesuatu yang baru.
+Tak terang seperti siang, tak gelap seperti malam,
+tapi cukup untuk membuatku merasa utuh.
+
+Di dekatmu, waktu berjalan lebih lembut,
+seolah dunia memilih untuk berhenti sejenak.
+Aku tak perlu menjadi siapa-siapa,
+karena di matamu, aku sudah cukup.
+
+Kita adalah dua jiwa dalam satu warna,
+mengalir tanpa perlu banyak kata.
+Setiap detik bersamamu terasa sederhana,
+namun tak pernah kehilangan maknanya.
+
+Jika biru adalah tempatku pulang,
+maka kaulah langitnya.
+Dan selama kau tetap di sana,
+aku akan selalu menemukan damai di dalamnya.
+
+Karena mencintaimu bukan tentang memiliki,
+tapi tentang tetap tinggal, apa pun yang terjadi.
+Dan dalam warna biru yang kita bagi bersama,
+aku menemukan arti dari selamanya.`
+        },
+
+        {
+            id: 7,
+            title: "NADA YANG TAK SAMA",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Katanya semua lagu cinta terdengar sama,
+kata-katanya berputar di nada yang itu-itu saja.
+Janji tinggal janji, rindu tinggal rindu,
+seolah hati manusia punya kamus yang seragam.
+
+Aku pun pernah percaya begitu,
+bahwa cinta hanyalah pengulangan.
+Sampai suaramu hadir tanpa aba-aba,
+mengacaukan ritme yang sudah kupahami.
+
+Ternyata bukan lagunya yang membosankan,
+tapi telingaku yang terlalu sering terluka.
+Saat kau datang, setiap lirik terasa baru,
+bahkan kata "selamanya" tak lagi terdengar kosong.
+
+Cinta memang memakai bahasa yang sama,
+tapi maknanya lahir dari siapa yang mengucapkannya.
+Di matamu, kalimat sederhana berubah hangat,
+dan dunia tak lagi sekadar repetisi.
+
+Jika suatu hari lagu itu diputar lagi,
+aku tak akan lagi menyebutnya biasa.
+Karena di antara nada yang katanya serupa,
+aku menemukan satu suara yang berbeda—
+dan itu, adalah kita.`
+        },
+
+        {
+            id: 8,
+            title: "TOO LATE",
+            lang: "en",
+            category: "English Poetry",
+            verses: `He fell first,
+like rain before the storm arrives—
+quiet, certain,
+believing love would someday be returned.
+
+He carried her name gently,
+in the pauses of every day,
+in the spaces between thoughts,
+in the hope that patience was enough.
+
+But seasons change without warning.
+The warmth he once held
+slowly turned into distance,
+a heart learning how to let go.
+
+And then she fell—
+not slowly, not softly,
+but all at once,
+when she finally saw what he once felt.
+
+Yet love can be cruel with timing.
+He fell first... when she could not.
+And she fell later—
+when he no longer did.`
+        },
+
+        {
+            id: 9,
+            title: "LOCATION UNKNOWN",
+            lang: "en",
+            category: "English Poetry",
+            verses: `Somewhere between the night and the morning,
+I still search for the place you might be.
+No map, no sign, no guiding light—
+just the memory of how you felt to me.
+
+The city sleeps but my thoughts don't,
+every street feels strangely the same.
+I walk through crowds of passing faces,
+quietly hoping one carries your name.
+
+Distance became a silent ocean,
+wide and deeper than we knew.
+I kept sending my heart like a signal,
+wondering if it ever reached you.
+
+Maybe you're under another sky tonight,
+hearing a different kind of rain.
+While I'm here tracing old constellations,
+trying to find where we remain.
+
+And if love is a place we once stood,
+then I'm still somewhere near that view—
+waiting in a world with no direction,
+in a heart whose location is you.`
+        },
+
+        {
+            id: 10,
+            title: "SELURUH DIRIMU",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Aku jatuh bukan hanya pada senyummu,
+tetapi pada segala yang kau sembunyikan.
+Pada luka yang kau tutup dengan tawa,
+dan mimpi yang kau jaga dalam diam.
+
+Ada hari saat kau merasa tak cukup,
+saat dunia membuatmu meragukan diri.
+Namun di mataku, kau tetap berarti,
+bahkan dalam rapuh yang tak ingin kau tunjukkan.
+
+Aku mengenal terang dan gelapmu,
+dan tak ingin memilih salah satunya.
+Karena mencintai berarti menerima,
+bukan hanya yang indah, tetapi seluruh cerita.
+
+Maka biarkan aku tetap di sisimu,
+saat waktu mengubah banyak hal dalam hidup.
+Sebab yang kupilih sejak awal bukan sebagian darimu,
+melainkan seluruh dirimu.`
+        },
+
+        {
+            id: 11,
+            title: "MALAM TANPA SAPAAN",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Malam ini lampu-lampu bersinar hangat,
+namun hatiku memilih tetap sunyi.
+Ada namamu di setiap sudut ingatan,
+meski tak lagi ada tempat untuk kembali.
+
+Jika rindu mengetuk di penghujung tahun,
+biarkan ia tinggal tanpa suara.
+Jangan biarkan teleponmu membangunkan harapan,
+yang telah susah payah kupelajari untuk mereda.
+
+Aku tak membencimu, sungguh tidak,
+hanya sedang belajar hidup tanpamu.
+Ada luka yang tak perlu dibuka kembali,
+meski malam terasa begitu sepi.
+
+Jadi, rayakanlah bahagiamu di sana,
+dan biarkan aku menjaga damaiku di sini.
+Semoga Natal membawamu sukacita,
+meski kali ini... jangan hubungi aku lagi.`
+        },
+
+        {
+            id: 12,
+            title: "DESEMBER YANG MASIH MENYIMPAN NAMAMU",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Desember kembali membawa cahaya,
+menghias malam dengan hangatnya harapan.
+Namun di antara tawa yang terdengar,
+aku masih mencari satu suara yang hilang.
+
+Andai kau berdiri di sampingku malam ini,
+mungkin musim ini terasa lebih sempurna.
+Bukan hadiah atau gemerlap lampu yang kurindukan,
+melainkan hadirmu yang dulu begitu sederhana.
+
+Waktu mengajarkanku untuk tetap berjalan,
+meski rindu tak pernah benar-benar usai.
+Aku hanya berharap kau baik-baik saja,
+di mana pun kini langkahmu berlabuh.
+
+Maka dari kejauhan kubisikkan satu doa,
+semoga bahagia selalu menemukanmu.
+Dan di antara hangatnya bulan Desember,
+aku masih merindukanmu dengan cara yang sama.`
+        },
+
+        {
+            id: 13,
+            title: "DESEMBER YANG KURINDU DAN KUBENCI",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Desember kembali mengetuk jendelaku,
+membawa dingin yang pernah kita bagi.
+Di antara cahaya yang memenuhi malam,
+namamu masih menjadi doa yang tak selesai.
+
+Aku masih merindukanmu, sungguh.
+Rindu itu tak pernah belajar menghilang.
+Ia hanya berubah menjadi lebih tenang,
+bersembunyi di balik senyum yang kupaksakan.
+
+Kadang aku berharap kau mengingatku,
+seperti aku yang tak sengaja mengingatmu.
+Namun jika malam ini hatimu tergerak,
+tolong... jangan hubungi aku lagi.
+
+Bukan karena aku membencimu,
+melainkan karena aku terlalu mencintaimu.
+Suaramu akan membangunkan harapan lama,
+yang susah payah telah kubiarkan tertidur.
+
+Maka biarlah kita saling mendoakan dari kejauhan.
+Semoga damai selalu menemukan langkahmu.
+Aku akan tetap merindukanmu setiap Desember,
+namun kali ini... biarkan rindu tak menemukan jalan pulang.`
+        },
+
+        {
+            id: 14,
+            title: "TAK SEJAJAR, NAMUN SEJALAN",
+            lang: "id",
+            category: "Cinta & Ketenangan",
+            verses: `Aku melihatmu dari sisi yang berbeda,
+dengan dunia yang terasa lebih tinggi dariku.
+Kau terbiasa dengan indahnya kehidupan,
+sementara aku masih menghitung apa yang kupunya.
+
+Kadang aku bertanya dalam diam,
+apakah pantas tangan ini menggenggam tanganmu?
+Bukan karena cintaku kurang besar,
+hanya saja aku takut tak mampu memberimu cukup.
+
+Aku tahu dunia akan membandingkan kita,
+tentang rumah, harta, dan segala yang terlihat.
+Namun saat kau tersenyum kepadaku,
+semua perbedaan itu seakan kehilangan arti.
+
+Jika suatu hari aku belum mampu memberimu kemewahan,
+izinkan aku memberimu sesuatu yang tak bisa dibeli.
+Kesetiaan di setiap langkah yang kita lalui,
+dan hati yang tetap memilihmu setiap hari.
+
+Mungkin aku tak punya dunia yang sempurna,
+namun bersamamu aku ingin membangunnya.
+Sebab cinta bukan tentang siapa yang lebih tinggi,
+melainkan dua hati yang memilih berjalan bersama.`
+        },
+
+        {
+            id: 15,
+            title: "HARI BARU.",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Setiap pagi masih datang seperti biasa,
+namun tak semua yang hilang ikut kembali.
+Ada nama-nama yang tersimpan dalam ingatan,
+dan wajah-wajah yang kini tak lagi mengenaliku.
+
+Dulu ada rumah tempat lelahku beristirahat,
+ada tawa yang membuat dunia terasa sederhana.
+Kini aku melewati jalan yang sama sendirian,
+membawa kenangan yang tak bisa kukembalikan.
+
+Aku pernah punya pilihan untuk tetap dikenang,
+namun dunia membutuhkan satu pengorbanan terakhir.
+Maka kubiarkan diriku terhapus dari ingatan mereka,
+agar semua yang kucintai dapat hidup tanpa rasa takut.
+
+Kini tak ada yang tahu siapa aku sebenarnya,
+tak ada tangan yang menungguku untuk pulang.
+Namun mungkin inilah harga dari menyelamatkan mereka—
+menjadi seseorang yang menyelamatkan dunia, tapi tak lagi memiliki tempat di dalamnya.
+
+Jadi biarlah hari ini menjadi hari yang baru,
+meski sebagian hatiku masih tinggal di kemarin.
+Aku akan terus berjalan meski tak ada yang menunggu,
+karena mungkin beginilah caraku mencintai mereka—
+dengan tetap hidup.`
+        },
+
+        {
+            id: 16,
+            title: "API, GEMPA, DAN SERIBU PENJAGA.",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Hutan terbakar, langit kehilangan warna,
+asap menutup rumah-rumah yang sederhana.
+Di seberang perbatasan, mereka ikut menghirup luka,
+sementara negeri sendiri masih sibuk mencari kata.
+
+Pernah bantuan datang dari tangan tetangga,
+namun harga diri lebih keras daripada api.
+Ketika ada yang ingin membantu memadamkan,
+mereka justru sibuk berkata, "kami masih mampu sendiri."
+
+Tanah berguncang, saudara menunggu pertolongan,
+sementara bantuan terasa kecil dibanding kebutuhan.
+Di jalan, rakyat hanya membawa suara dan tuntutan,
+namun ribuan penjaga berdiri seolah kami datang membawa perang.
+
+Kami tidak meminta negeri yang sempurna,
+kami hanya ingin mereka yang berkuasa membuka mata.
+Sebab rakyat bukan angka dalam laporan tahunan,
+dan penderitaan bukan sesuatu yang selesai dengan konferensi pers.
+
+Kami mungkin masih muda dan belum punya kuasa,
+belum tentu tahu bagaimana negeri ini akan berakhir.
+Namun selama masih ada yang berani bersuara,
+kami belum tentu diam—
+meski mereka berharap kami lupa.`
+        },
+
+        {
+            id: 17,
+            title: "PUISI PERTAMA",
+            lang: "id",
+            category: "Karya Pertama",
+            special: true,
+            date: "10 Februari 2026",
+            verses: `Kami belum tentu tahu harus sekuat apa bertahan,
+tapi negeri menuntut kami terus melangkah.
+Langkah ini berat oleh rantai dan darah,
+namun berhenti berarti mengkhianati tanah.
+
+Kami dibesarkan oleh janji kemerdekaan,
+oleh sejarah yang ditulis di atas pengorbanan.
+Tangis disembunyikan di balik pekik merdeka,
+sebab bangsa tak diajarkan untuk terlihat
+lemah.
+
+Katanya kita diayomi mereka, katanya kita dibantu dan disayang oleh mereka, namun saat banjir datang, yang saling menolong tetap rakyat biasa.
+
+Dulu, para leluhur menaruh harapan akan masa depan yang cerah pada doa-doa yang dilantunkan di atas senjata sambil meneriakkan kata MERDEKA, berjuang tanpa henti, tanpa takut, dan tanpa lelah demi membebaskan serta mempertahankan negara yang mereka cinta.
+
+Namun kini, perjuangan paling sulit adalah melawan orde-orde yang menelan banyak korban, ketika merekam kebenaran berujung penjara dan penghakiman, ketika praktik nepotisme menutup mata terhadap kelaparan, dan ketika tangan besi telah terlanjur ditanam dalam-dalam di tanah yang dulu diperjuangkan dengan darah.
+
+Jika kematian adalah harga perubahan,
+mengapa yang gugur selalu paling berani?
+Jika runtuhnya menara adalah tanda merdeka,
+biarlah—
+sebab berdiri di bawah penindasan
+hanya memperpanjang luka.
+
+Kami belum tentu benar di mata penguasa,
+namun sejarah sering membenarkan yang dibungkam.
+Kami belum tentu kuat menahan segalanya,
+tapi perjuangan tak pernah memberi pilihan lain.
+
+Mereka berpura-pura baik saat hendak diangkat, diberi hati namun masih menuntut paru-paru, berlagak bersih bak kalpataru yang dipuja, namun pikirannya telah membakar lahan-lahan hijau yang dulu asri dan tenteram.
+
+Namun peradaban takkan pernah mati,
+walau diledakkan, diancam untuk diobati,
+sebab peradaban berputar abadi,
+kebal luka bakar, tusuk, maupun caci maki.
+Dan peradaban akan terus berputar memperjuangkan tanah air,
+bak leluhur yang dahulu berdoa dan bersyair mengharapkan terbaik
+untuk negara yang kami cintai.`
+        },
+
+        {
+            id: 18,
+            title: "KOTA YANG KURINDU DAN KUBENCI",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Di bawah lampu jalan yang pernah kita lewati,
+aku masih ingat tawa yang kau sembunyikan,
+di antara ramainya Jl. Tunjungan malam itu,
+ada cerita yang tak sempat kita selesaikan.
+
+Di sudut Tunjungan Plaza yang ramai,
+pernah ada kita yang begitu sederhana,
+berjalan tanpa tahu akan berakhir,
+mengira waktu akan selalu berpihak pada kita.
+
+Pakuwon masih dipenuhi cahaya,
+orang-orang datang dengan cerita mereka,
+sementara aku hanya mengenang satu hal,
+tentang seseorang yang kini tak lagi bersama.
+
+Mungkin tempat-tempat itu akan terus ramai,
+dan kenangan kita perlahan menjadi asing,
+tapi setiap kali aku melewatinya,
+rasanya ada bagian dari kita yang masih tertinggal di sana.
+
+Aku tak ingin kembali ke masa itu,
+aku hanya ingin mengingat tanpa terluka,
+sebab pernah mencintaimu di tempat-tempat itu,
+adalah sesuatu yang tak akan mudah kulupa.`
+        },
+
+        {
+            id: 19,
+            title: "STILL WAITING HERE",
+            lang: "en",
+            category: "English Poetry",
+            verses: `I left the door open for your return,
+though every day keeps telling me to go,
+the streets are crowded with strangers,
+but none of them feel like home.
+
+I found myself standing where we once met,
+watching the hours quietly pass by,
+hoping somehow you would come looking,
+even though I never knew if you would try.
+
+Maybe people think I've lost my way,
+for staying where you left me behind,
+but how do I walk toward somewhere new
+when my heart is still looking for a sign?
+
+If you ever wonder where I went,
+I never really went anywhere,
+I'm still somewhere beneath the same sky,
+waiting for a familiar face to appear.
+
+And perhaps one day I'll finally leave,
+not because I stopped caring about you,
+but because I learned that loving someone
+doesn't always mean they have to come back.`
+        },
+
+        {
+            id: 20,
+            title: "THE WAY BACK",
+            lang: "en",
+            category: "English Poetry",
+            verses: `I could travel through a thousand miles,
+with every road pulling me somewhere new,
+yet there's a place I keep returning to,
+a quiet room that still reminds me of you.
+
+The night feels colder in unfamiliar rooms,
+where the walls know nothing about our past,
+and somewhere between leaving and arriving,
+I realize I never really left you behind.
+
+Maybe it's foolish to keep coming back,
+when distance was supposed to make me forget,
+but some places are more than just a destination,
+they become a reason to turn around again.
+
+So if the road ever leads me there,
+I won't pretend that I don't know why,
+perhaps I was never searching for a place,
+I was only trying to find my way back to you.`
+        },
+
+        {
+            id: 21,
+            title: "INVISIBLE IN A CROWD",
+            lang: "en",
+            category: "English Poetry",
+            verses: `I smiled as if nothing was wrong,
+while something inside me slowly faded,
+I spoke, I laughed, I stayed around,
+but somehow, no one ever noticed.
+
+The room was full of familiar faces,
+yet I felt like a shadow in the crowd,
+waiting for someone to look a little closer,
+to hear what I could never say out loud.
+
+I wish somebody would ask me to stay,
+not because they knew I was falling apart,
+but because they simply wanted me there,
+without needing a reason from my heart.
+
+Maybe I'm too good at hiding things,
+turning my silence into something ordinary,
+while every night I wonder quietly
+if anyone would notice me missing.
+
+And if someday you finally see me,
+I hope you won't ask why I disappeared,
+just sit beside me for a little while—
+sometimes being noticed is all I needed.`
+        },
+
+        {
+            id: 22,
+            title: "NAMUN AKU MASIH MENCINTAIMU",
+            lang: "id",
+            category: "Rindu & Kehilangan",
+            verses: `Aku mencintaimu lebih dari yang kukira,
+hingga egoku perlahan luluh karenamu,
+kau pernah menjadi tempatku menenangkan diri,
+tempat keras kepalaku belajar untuk mengalah.
+
+Tapi entah sejak kapan semuanya berubah,
+yang dahulu menenangkan kini terasa berat,
+aku bertahan bukan karena tak terluka,
+melainkan karena masih berharap kau kembali seperti dulu.
+
+Aku lelah menjadi orang yang terus memahami,
+sementara lukaku sendiri tak pernah kau lihat,
+setiap pertengkaran meninggalkan sunyi,
+dan setiap maaf terasa semakin kehilangan arti.
+
+Mungkin kali ini aku harus benar-benar pergi,
+membawa sisa diriku yang belum hancur,
+bukan karena cintaku telah selesai,
+tetapi karena aku tak sanggup terus kehilangan diriku sendiri.
+
+Aku ingin membencimu, agar langkahku mudah,
+ingin melupakan semua yang pernah kita punya,
+namun setelah segala sakit yang kau tinggalkan,
+sialnya, aku masih mencintaimu.`
+        },
+
+        {
+            id: 23,
+            title: "DULU, DUNIA TUNDUK PADAKU",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Dahulu mereka bersujud di hadapanku,
+mengangkat panji dan menyebutku pemimpin,
+kuserahkan kepercayaan, kubukakan gerbang,
+tak kusangka pengkhianat tumbuh di dalam benteng.
+
+Kukirim pasukan menyeberangi samudra,
+kutaklukkan takhta, kupersatukan wilayah,
+namun saat kemenangan memenuhi singgasana,
+mereka mulai berbisik tentang siapa yang pantas berkuasa.
+
+Oh, betapa bodohnya seorang raja,
+yang mengira sumpah setia berarti selamanya,
+sebab tangan yang dahulu mencium mahkotaku,
+kini menggenggam belati di belakang punggungku.
+
+Para jenderal berpaling, para sekutu menghilang,
+panji kebanggaanku diturunkan dari tiang,
+bukan musuh yang merobohkan istanaku,
+melainkan mereka yang dahulu kusebut saudaraku.
+
+Kini takhta ini menjadi milik pengkhianat,
+sementara namaku tinggal sebagai kisah yang cacat,
+dahulu dunia berlutut ketika kusebut namaku,
+kini aku berlutut—oleh tangan yang kupercaya dahulu.`
+        },
+
+        {
+            id: 24,
+            title: "BUKAN BAYANGANNYA",
+            lang: "id",
+            category: "Waktu & Perjalanan",
+            verses: `Mengapa namanya selalu hadir dalam ceritaku,
+seolah hidupku harus mengikuti jejak langkahnya,
+mereka menyebutnya sebagai sebuah teladan,
+sementara aku hanya ingin menjadi diriku sendiri.
+
+Katanya, dahulu ia begitu hebat,
+begitu bijak, begitu pantas dibanggakan,
+lalu bagaimana denganku yang masih belajar,
+apakah salah jika jalanku tak serupa dengannya?
+
+Aku mulai mencari kekurangan dalam diriku,
+mencoba memahami apa yang tak mereka sukai,
+hingga terkadang aku lupa satu hal sederhana,
+bahwa aku bukanlah seseorang yang mereka bandingkan.
+
+Aku tak membenci sosok yang mereka banggakan,
+tak pula ingin meruntuhkan segala pencapaiannya,
+aku hanya lelah hidup di bawah bayangannya,
+seakan keberadaanku tak pernah cukup berharga.
+
+Jika suatu hari mereka bertanya siapa diriku,
+jangan jawab dengan menyebut nama orang lain,
+sebab aku masih punya perjalanan untuk kutempuh,
+dan aku ingin dikenal sebagai diriku sendiri.`
+        },
+
+        {
+            id: 25,
+            title: "THE POETRY OF YOU",
+            lang: "en",
+            category: "English Poetry",
+            verses: `Beneath the moon, I found a dream,
+a gentle soul, a heavenly gleam,
+you came like prayers answered by the skies,
+a beautiful wonder before my eyes.
+
+Every road somehow leads to you,
+every breath carries a thought of you,
+for how could I welcome another dawn,
+if I must face the world alone?
+
+You are the warmth within my pain,
+the quiet shelter from the pouring rain,
+beside you, my fears begin to fade,
+and all my broken pieces feel remade.
+
+Can you hear the poems I never say?
+The words I hide at the end of every day,
+you live between my stars and scars,
+a precious light beneath the dark.
+
+So let me be your reason to stay,
+your place of peace at the end of the day,
+and if you ever wonder what you are to me,
+you are perfection, beyond what my words could ever be.`
         }
-    }
+    ];
 
-    function safeSetItem(key, value) {
-        try {
-            localStorage.setItem(key, value);
-        } catch (e) {
-            console.warn("Gagal menyimpan ke localStorage:", e);
-        }
-    }
 
-    let favorites = [];
-    try {
-        const savedFavs = safeGetItem('bramasta_favs');
-        favorites = savedFavs ? JSON.parse(savedFavs) : [];
-    } catch (e) {
-        favorites = [];
-    }
+    /* =========================
+       VARIABLES
+    ========================= */
 
+    let favorites = JSON.parse(localStorage.getItem('bramasta_favs')) || [];
     let activeCategoryFilter = 'all';
     let currentActivePoem = null;
 
@@ -1045,7 +1796,7 @@ namun berhenti berarti mengkhianati tanah.
         grid.classList.remove('hidden');
 
         countText.innerText =
-            `Menampilkan ${poems.length} karya puisi`;
+            `Menampilkan ${poems.length} karya puisi (Tersusun dalam bait 4 baris)`;
 
         poems.forEach(poem => {
 
@@ -1211,7 +1962,7 @@ namun berhenti berarti mengkhianati tanah.
 
 
         const savedNote =
-            safeGetItem(`bramasta_note_${poem.id}`, '') || '';
+            localStorage.getItem(`bramasta_note_${poem.id}`) || '';
 
         document.getElementById('readerNoteInput').value =
             savedNote;
@@ -1283,7 +2034,7 @@ namun berhenti berarti mengkhianati tanah.
             document.getElementById('readerNoteInput').value;
 
 
-        safeSetItem(
+        localStorage.setItem(
             `bramasta_note_${currentActivePoem.id}`,
             note
         );
@@ -1733,7 +2484,7 @@ namun berhenti berarti mengkhianati tanah.
         }
 
 
-        safeSetItem(
+        localStorage.setItem(
             'bramasta_favs',
             JSON.stringify(favorites)
         );
@@ -1744,11 +2495,161 @@ namun berhenti berarti mengkhianati tanah.
         handleSearch();
 
     }
-<!-- ... existing code ... baseline theme functions ... -->
+
+
+    function updateFavCounter() {
+
+        document.getElementById('favCounter').innerText =
+            favorites.length;
+
+    }
+
+
+    function filterFavorites() {
+
+        if (favorites.length === 0) {
+
+            showToast(
+                "Belum ada puisi favorit"
+            );
+
+            return;
+        }
+
+
+        const favPoems =
+            poemsDatabase.filter(p => !p.special).filter(
+                p => favorites.includes(p.id)
+            );
+
+
+        document.getElementById('galleryTitle').innerText =
+            "Puisi Favorit Anda";
+
+
+        renderPoemsList(favPoems);
+
+    }
+
+
+    /* =========================
+       COPY POEM
+    ========================= */
+
+    function copyModalPoem() {
+
+        if (!currentActivePoem) return;
+
+
+        const fullText =
+            `${currentActivePoem.title}
+Karya: Bramasta Aptila Yanuar
+
+${currentActivePoem.verses}`;
+
+
+        const tempTextArea =
+            document.createElement('textarea');
+
+
+        tempTextArea.value =
+            fullText;
+
+
+        document.body.appendChild(
+            tempTextArea
+        );
+
+
+        tempTextArea.select();
+
+
+        document.execCommand('copy');
+
+
+        document.body.removeChild(
+            tempTextArea
+        );
+
+
+        showToast(
+            "Teks puisi berhasil disalin!"
+        );
+
+    }
+
+
+    /* =========================
+       RANDOM POEM
+    ========================= */
+
+    function readRandomPoem() {
+
+        const randomIndex =
+            Math.floor(
+                Math.random() *
+                poemsDatabase.length
+            );
+
+
+        openModal(
+            poemsDatabase[randomIndex].id
+        );
+
+    }
+
+
+    /* =========================
+       RANDOM QUOTE
+    ========================= */
+
+    function generateRandomQuote() {
+
+        const quotes = [
+
+            '"Biarlah aku yang berjalan sendiri, meski terbuang dalam sunyi yang panjang..."',
+
+            '"Tanpamu, bulan hanyalah kesepian yang lebih terang."',
+
+            '"Sebab yang kupilih sejak awal bukan sebagian darimu, melainkan seluruh dirimu."',
+
+            '"Dari rasa sakit, lahirlah kekuatan baru, dari kehilangan, lahirlah diriku yang sebenarnya."',
+
+            '"Cinta memang memakai bahasa yang sama, tapi maknanya lahir dari siapa yang mengucapkannya."',
+
+            '"He fell first... when she could not. And she fell later—when he no longer did."',
+
+            '"Sebab cinta bukan tentang siapa yang lebih tinggi, melainkan dua hati yang memilih berjalan bersama."',
+
+            '"Sebab rakyat bukan angka dalam laporan tahunan, dan penderitaan bukan sesuatu yang selesai dengan konferensi pers."'
+
+        ];
+
+
+        const random =
+            quotes[
+                Math.floor(
+                    Math.random() *
+                    quotes.length
+                )
+            ];
+
+
+        document.getElementById('quoteText').innerText =
+            random;
+
+    }
+
+
+    /* =========================
+       THEME
+    ========================= */
+
     function initTheme() {
 
         const savedTheme =
-            safeGetItem('bramasta_theme', 'malam');
+            localStorage.getItem('bramasta_theme') ||
+            'malam';
 
 
         const html =
@@ -1828,7 +2729,7 @@ namun berhenti berarti mengkhianati tanah.
                 text.innerText = "Pagi";
 
 
-            safeSetItem(
+            localStorage.setItem(
                 'bramasta_theme',
                 'pagi'
             );
@@ -1854,7 +2755,7 @@ namun berhenti berarti mengkhianati tanah.
                 text.innerText = "Malam";
 
 
-            safeSetItem(
+            localStorage.setItem(
                 'bramasta_theme',
                 'malam'
             );
